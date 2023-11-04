@@ -1,0 +1,36 @@
+{
+    "name": "yceruto/messenger",
+    "description": "Simple Messenger Component",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yonel Ceruto",
+            "email": "yonelceruto@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "psr/container": "^2.0"
+    },
+    "require-dev": {
+        "vimeo/psalm": "^6.0",
+        "phpunit/phpunit": "^10.0",
+        "psalm/plugin-phpunit": "^0.18"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yceruto\\Messenger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yceruto\\Messenger\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests",
+        "psalm": "vendor/bin/psalm --show-info=true"
+    },
+    "minimum-stability": "dev"
+}
