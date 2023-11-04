@@ -3,12 +3,12 @@
 namespace Yceruto\Messenger\Tests\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use Yceruto\Messenger\Middleware\HandlerMiddlewareStack;
+use Yceruto\Messenger\Middleware\MiddlewareStack;
 use Yceruto\Messenger\Middleware\Middleware;
 use Yceruto\Messenger\Model\Envelop;
 use Yceruto\Messenger\Tests\Fixtures\CreateProduct;
 
-class HandlerMiddlewareStackTest extends TestCase
+class MiddlewareStackTest extends TestCase
 {
     public function testHandle(): void
     {
@@ -33,7 +33,7 @@ class HandlerMiddlewareStackTest extends TestCase
                 $next($envelop);
             }
         };
-        $stack = new HandlerMiddlewareStack([$middleware1, $middleware2, $middleware3]);
+        $stack = new MiddlewareStack([$middleware1, $middleware2, $middleware3]);
         $envelop = Envelop::wrap(new CreateProduct());
         $stack->handle($envelop);
 
