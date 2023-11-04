@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware;
+namespace Yceruto\Messenger\Tests\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Yceruto\Messenger\Error\HandlerNotFound;
