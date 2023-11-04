@@ -2,7 +2,7 @@
 
 namespace Yceruto\Messenger\Bus;
 
-use Yceruto\Messenger\Handler\HandlerLocator;
+use Yceruto\Messenger\Handler\HandlersLocator;
 use Yceruto\Messenger\Middleware\HandlerMiddleware;
 use Yceruto\Messenger\Middleware\HandlerMiddlewareStack;
 
@@ -17,7 +17,7 @@ final class MessageBusFactory
     public static function fromHandlers(array $handlers): MessageBus
     {
         return new NativeMessageBus(new HandlerMiddlewareStack([
-            new HandlerMiddleware(new HandlerLocator($handlers)),
+            new HandlerMiddleware(new HandlersLocator($handlers)),
         ]));
     }
 }

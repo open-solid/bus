@@ -4,7 +4,7 @@ namespace Yceruto\Messenger\Tests\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Yceruto\Messenger\Error\HandlerNotFound;
-use Yceruto\Messenger\Handler\HandlerLocator;
+use Yceruto\Messenger\Handler\HandlersLocator;
 use Yceruto\Messenger\Middleware\HandlerMiddleware;
 use Yceruto\Messenger\Model\Envelop;
 use Yceruto\Messenger\Tests\Fixtures\CreateProduct;
@@ -16,7 +16,7 @@ class HandlerMiddlewareTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->handlerMiddleware = new HandlerMiddleware(new HandlerLocator([
+        $this->handlerMiddleware = new HandlerMiddleware(new HandlersLocator([
             CreateProduct::class => static fn (CreateProduct $message) => $message,
         ]));
     }

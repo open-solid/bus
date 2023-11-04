@@ -5,7 +5,7 @@ namespace Yceruto\Messenger\Handler;
 use Psr\Container\ContainerInterface;
 use Yceruto\Messenger\Error\HandlerNotFound;
 
-final readonly class HandlerLocator implements ContainerInterface
+final readonly class HandlersLocator implements ContainerInterface
 {
     /**
      * @param array<class-string, callable> $handlers
