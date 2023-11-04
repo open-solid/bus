@@ -2,7 +2,7 @@
 
 namespace Yceruto\Messenger\Middleware;
 
-use Yceruto\Messenger\Model\Envelop;
+use Yceruto\Messenger\Model\Envelope;
 
 /**
  * @internal
@@ -16,7 +16,7 @@ final readonly class MiddlewareStack
     {
     }
 
-    public function handle(Envelop $envelop): void
+    public function handle(Envelope $envelop): void
     {
         $next = static fn (): null => null;
 
@@ -27,7 +27,7 @@ final readonly class MiddlewareStack
         }
 
         foreach (array_reverse($middlewares) as $middleware) {
-            $next = static fn (Envelop $envelop): null => $middleware->handle($envelop, $next);
+            $next = static fn (Envelope $envelop): null => $middleware->handle($envelop, $next);
         }
 
         $next($envelop);

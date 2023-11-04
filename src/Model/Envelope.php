@@ -2,7 +2,7 @@
 
 namespace Yceruto\Messenger\Model;
 
-final class Envelop
+final class Envelope
 {
     public mixed $result = null;
 

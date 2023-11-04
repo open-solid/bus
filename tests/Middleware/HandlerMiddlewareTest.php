@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Yceruto\Messenger\Error\HandlerNotFound;
 use Yceruto\Messenger\Handler\HandlersLocator;
 use Yceruto\Messenger\Middleware\HandlerMiddleware;
-use Yceruto\Messenger\Model\Envelop;
+use Yceruto\Messenger\Model\Envelope;
 use Yceruto\Messenger\Tests\Fixtures\CreateProduct;
 use Yceruto\Messenger\Tests\Fixtures\MessageWithoutHandler;
 
@@ -24,7 +24,7 @@ class HandlerMiddlewareTest extends TestCase
     public function testHandle(): void
     {
         $message = new CreateProduct();
-        $envelop = Envelop::wrap($message);
+        $envelop = Envelope::wrap($message);
         $this->handlerMiddleware->handle($envelop, static fn () => null);
 
         $this->assertSame($message, $envelop->result);
@@ -35,7 +35,7 @@ class HandlerMiddlewareTest extends TestCase
         $this->expectException(HandlerNotFound::class);
         $this->expectExceptionMessage('Handler not found for message "Yceruto\Messenger\Tests\Fixtures\MessageWithoutHandler"');
 
-        $envelop = Envelop::wrap(new MessageWithoutHandler());
+        $envelop = Envelope::wrap(new MessageWithoutHandler());
         $this->handlerMiddleware->handle($envelop, static fn () => null);
     }
 }

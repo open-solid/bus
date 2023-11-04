@@ -4,7 +4,7 @@ namespace Yceruto\Messenger\Bus;
 
 use Yceruto\Messenger\Middleware\Middleware;
 use Yceruto\Messenger\Middleware\MiddlewareStack;
-use Yceruto\Messenger\Model\Envelop;
+use Yceruto\Messenger\Model\Envelope;
 use Yceruto\Messenger\Model\Message;
 
 final readonly class NativeMessageBus implements MessageBus
@@ -21,7 +21,7 @@ final readonly class NativeMessageBus implements MessageBus
 
     public function dispatch(Message $message): mixed
     {
-        $envelop = Envelop::wrap($message);
+        $envelop = Envelope::wrap($message);
 
         $this->stack->handle($envelop);
 

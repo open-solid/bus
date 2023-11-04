@@ -4,7 +4,7 @@ namespace Yceruto\Messenger\Middleware;
 
 use Psr\Container\ContainerInterface;
 use Yceruto\Messenger\Error\HandlerNotFound;
-use Yceruto\Messenger\Model\Envelop;
+use Yceruto\Messenger\Model\Envelope;
 
 /**
  * Handles a message with a handler.
@@ -18,7 +18,7 @@ final readonly class HandlerMiddleware implements Middleware
     /**
      * {@inheritdoc}
      */
-    public function handle(Envelop $envelop, callable $next): void
+    public function handle(Envelope $envelop, callable $next): void
     {
         $class = get_class($envelop->message);
 

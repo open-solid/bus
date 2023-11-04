@@ -2,7 +2,7 @@
 
 namespace Yceruto\Messenger\Middleware;
 
-use Yceruto\Messenger\Model\Envelop;
+use Yceruto\Messenger\Model\Envelope;
 
 /**
  * Handles an Envelope object and pass control to the next middleware in the stack.
@@ -10,7 +10,7 @@ use Yceruto\Messenger\Model\Envelop;
 interface Middleware
 {
     /**
-     * @param callable(Envelop): void $next
+     * @param callable(Envelope): void $next
      */
-    public function handle(Envelop $envelop, callable $next): void;
+    public function handle(Envelope $envelop, callable $next): void;
 }
