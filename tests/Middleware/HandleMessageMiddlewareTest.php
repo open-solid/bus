@@ -10,7 +10,6 @@ use Yceruto\Messenger\Handler\HandlersLocator;
 use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
 use Yceruto\Messenger\Model\Envelope;
 use Yceruto\Messenger\Tests\Fixtures\MyMessage;
-use Yceruto\Messenger\Tests\Fixtures\MyMessageWithoutAHandler;
 
 class HandleMessageMiddlewareTest extends TestCase
 {
