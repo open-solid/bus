@@ -10,6 +10,7 @@ use Yceruto\Messenger\Handler\HandlersLocator;
 use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
 use Yceruto\Messenger\Model\Envelope;
 use Yceruto\Messenger\Tests\Fixtures\MyMessage;
+use Yceruto\Messenger\Tests\Fixtures\MyMessageHandler;
 
 class HandleMessageMiddlewareTest extends TestCase
 {
@@ -17,7 +18,7 @@ class HandleMessageMiddlewareTest extends TestCase
     {
         $message = new MyMessage();
         $handlerMiddleware = new HandleMessageMiddleware(new HandlersLocator([
-            MyMessage::class => [static fn (MyMessage $message) => $message],
+            MyMessage::class => [new MyMessageHandler()],
         ]));
         $envelop = Envelope::wrap($message);
         $handlerMiddleware->handle($envelop, static fn () => null);
