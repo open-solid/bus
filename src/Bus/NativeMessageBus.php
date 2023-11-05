@@ -21,10 +21,10 @@ final readonly class NativeMessageBus implements MessageBus
 
     public function dispatch(Message $message): mixed
     {
-        $envelop = Envelope::wrap($message);
+        $envelope = Envelope::wrap($message);
 
-        $this->stack->handle($envelop);
+        $this->stack->handle($envelope);
 
-        return $envelop->result;
+        return $envelope->result;
     }
 }

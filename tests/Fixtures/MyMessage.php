@@ -7,6 +7,6 @@ use Yceruto\Messenger\Model\Message;
 /**
  * @psalm-immutable
  */
-class MessageWithoutHandler implements Message
+class MyMessage implements Message
 {
 }

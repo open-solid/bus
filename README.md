@@ -10,14 +10,18 @@ composer require yceruto/messenger
 
 ```php
 use App\Message\CreateProduct;
-use Yceruto\Messenger\Bus\MessageBusFactory;
+use Yceruto\Messenger\Bus\NativeMessageBus;
+use Yceruto\Messenger\Handler\HandlersLocator;
+use Yceruto\Messenger\Middleware\HandlerMiddleware;
 
-$createProductHandler = function (CreateProduct $message): mixed {
+$handler = function (CreateProduct $message): mixed {
     // ...
 };
 
-$bus = MessageBusFactory::fromHandlers([
-    CreateProduct::class => $createProductHandler,
+$bus = new NativeMessageBus([
+    new HandlerMiddleware(new HandlersLocator([
+        CreateProduct::class => [$handler],
+    ])),
 ]);
 
 $bus->dispatch(new CreateProduct());

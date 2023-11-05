@@ -16,7 +16,7 @@ final readonly class MiddlewareStack
     {
     }
 
-    public function handle(Envelope $envelop): void
+    public function handle(Envelope $envelope): void
     {
         $next = static fn (): null => null;
 
@@ -27,9 +27,9 @@ final readonly class MiddlewareStack
         }
 
         foreach (array_reverse($middlewares) as $middleware) {
-            $next = static fn (Envelope $envelop): null => $middleware->handle($envelop, $next);
+            $next = static fn (Envelope $envelope): null => $middleware->handle($envelope, $next);
         }
 
-        $next($envelop);
+        $next($envelope);
     }
 }

@@ -6,37 +6,37 @@ use PHPUnit\Framework\TestCase;
 use Yceruto\Messenger\Middleware\MiddlewareStack;
 use Yceruto\Messenger\Middleware\Middleware;
 use Yceruto\Messenger\Model\Envelope;
-use Yceruto\Messenger\Tests\Fixtures\CreateProduct;
+use Yceruto\Messenger\Tests\Fixtures\MyMessage;
 
 class MiddlewareStackTest extends TestCase
 {
     public function testHandle(): void
     {
         $middleware1 = new class() implements Middleware {
-            public function handle(Envelope $envelop, callable $next): void
+            public function handle(Envelope $envelope, callable $next): void
             {
-                $envelop->result = '1';
-                $next($envelop);
+                $envelope->result = '1';
+                $next($envelope);
             }
         };
         $middleware2 = new class() implements Middleware {
-            public function handle(Envelope $envelop, callable $next): void
+            public function handle(Envelope $envelope, callable $next): void
             {
-                $envelop->result .= '2';
-                $next($envelop);
+                $envelope->result .= '2';
+                $next($envelope);
             }
         };
         $middleware3 = new class() implements Middleware {
-            public function handle(Envelope $envelop, callable $next): void
+            public function handle(Envelope $envelope, callable $next): void
             {
-                $envelop->result .= '3';
-                $next($envelop);
+                $envelope->result .= '3';
+                $next($envelope);
             }
         };
         $stack = new MiddlewareStack([$middleware1, $middleware2, $middleware3]);
-        $envelop = Envelope::wrap(new CreateProduct());
-        $stack->handle($envelop);
+        $envelope = Envelope::wrap(new MyMessage());
+        $stack->handle($envelope);
 
-        $this->assertSame('123', $envelop->result);
+        $this->assertSame('123', $envelope->result);
     }
 }
