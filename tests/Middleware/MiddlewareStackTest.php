@@ -1,12 +1,12 @@
 <?php
 
-namespace Yceruto\Messenger\Tests\Middleware;
+namespace Yceruto\Tests\Messenger\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Yceruto\Messenger\Middleware\MiddlewareStack;
 use Yceruto\Messenger\Middleware\Middleware;
 use Yceruto\Messenger\Model\Envelope;
-use Yceruto\Messenger\Tests\Fixtures\MyMessage;
+use Yceruto\Tests\Messenger\Fixtures\MyMessage;
 
 class MiddlewareStackTest extends TestCase
 {

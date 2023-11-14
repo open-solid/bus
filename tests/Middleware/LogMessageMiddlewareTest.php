@@ -11,8 +11,8 @@ use Yceruto\Messenger\Handler\HandlersLocator;
 use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
 use Yceruto\Messenger\Middleware\LogMessageMiddleware;
 use Yceruto\Messenger\Model\Envelope;
-use Yceruto\Messenger\Tests\Fixtures\MyMessage;
-use Yceruto\Messenger\Tests\Fixtures\MyMessageHandler;
+use Yceruto\Tests\Messenger\Fixtures\MyMessage;
+use Yceruto\Tests\Messenger\Fixtures\MyMessageHandler;
 
 class LogMessageMiddlewareTest extends TestCase
 {

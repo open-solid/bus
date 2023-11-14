@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Tests\Bridge\Symfony\DependencyInjection\CompilerPass;
+namespace Yceruto\Tests\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
@@ -11,9 +11,9 @@ use Yceruto\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass\MessageHan
 use Yceruto\Messenger\Bridge\Symfony\DependencyInjection\Configurator\MessageHandlerConfigurator;
 use Yceruto\Messenger\Handler\HandlersCountPolicy;
 use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
-use Yceruto\Messenger\Tests\Fixtures\AsMessageHandler;
-use Yceruto\Messenger\Tests\Fixtures\MyMessage;
-use Yceruto\Messenger\Tests\Fixtures\MyMessageHandler;
+use Yceruto\Tests\Messenger\Fixtures\AsMessageHandler;
+use Yceruto\Tests\Messenger\Fixtures\MyMessage;
+use Yceruto\Tests\Messenger\Fixtures\MyMessageHandler;
 
 class MessageHandlersLocatorPassTest extends TestCase
 {
