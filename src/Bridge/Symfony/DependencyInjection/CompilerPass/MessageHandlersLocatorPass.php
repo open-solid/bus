@@ -20,6 +20,10 @@ final readonly class MessageHandlersLocatorPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
+        if (!$container->has($this->messageHandlerMiddlewareId)) {
+            return;
+        }
+
         $handlers = $this->findAndSortTaggedServices(
             new TaggedIteratorArgument($this->messageHandlerTagName, 'message'),
             $container,
