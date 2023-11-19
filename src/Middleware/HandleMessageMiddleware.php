@@ -3,6 +3,8 @@
 namespace Yceruto\Messenger\Middleware;
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Yceruto\Messenger\Error\SingleHandlerForMessage;
 use Yceruto\Messenger\Error\NoHandlerForMessage;
 use Yceruto\Messenger\Handler\HandlersCountPolicy;
@@ -16,6 +18,7 @@ final readonly class HandleMessageMiddleware implements Middleware
     public function __construct(
         private ContainerInterface $handlersLocator,
         private HandlersCountPolicy $handlersCountPolicy = HandlersCountPolicy::MULTIPLE_HANDLERS,
+        private LoggerInterface $logger = new NullLogger(),
     ) {
     }
 
@@ -44,6 +47,10 @@ final readonly class HandleMessageMiddleware implements Middleware
 
         foreach ($handlers as $handler) {
             $envelope->result = $handler($envelope->message);
+
+            $this->logger->info('Message {class} was handled', [
+                'class' => get_class($envelope->message),
+            ]);
         }
 
         $next($envelope);

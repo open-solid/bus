@@ -19,7 +19,7 @@ class LogMessageMiddlewareTest extends TestCase
     public function testHandle(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects($this->exactly(2))
+        $logger->expects($this->once())
             ->method('info');
 
         $logMessageMiddleware = new LogMessageMiddleware($logger);
