@@ -11,11 +11,11 @@ final readonly class MessageHandlerConfigurator
     /**
      * @param class-string $attributeClass
      */
-    public static function configure(ContainerBuilder $builder, string $attributeClass, string $tagName): void
+    public static function configure(ContainerBuilder $builder, string $attributeClass, string $tagName, array $attributes = []): void
     {
         $builder->registerAttributeForAutoconfiguration(
             $attributeClass,
-            function (ChildDefinition $definition, object $attribute, \Reflector $reflector) use ($attributeClass, $tagName): void {
+            function (ChildDefinition $definition, object $attribute, \Reflector $reflector) use ($attributeClass, $tagName, $attributes): void {
                 if (!$reflector instanceof \ReflectionClass) {
                     return;
                 }
@@ -37,7 +37,7 @@ final readonly class MessageHandlerConfigurator
                 }
 
                 if ($attribute instanceof $attributeClass) {
-                    $definition->addTag($tagName, ['message' => $type->getName()]);
+                    $definition->addTag($tagName, $attributes + ['message' => $type->getName()]);
                 }
             },
         );
