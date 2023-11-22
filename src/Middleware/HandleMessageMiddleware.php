@@ -19,6 +19,7 @@ final readonly class HandleMessageMiddleware implements Middleware
         private ContainerInterface $handlersLocator,
         private HandlersCountPolicy $handlersCountPolicy = HandlersCountPolicy::MULTIPLE_HANDLERS,
         private LoggerInterface $logger = new NullLogger(),
+        private string $topic = 'Message',
     ) {
     }
 
@@ -48,7 +49,7 @@ final readonly class HandleMessageMiddleware implements Middleware
         foreach ($handlers as $handler) {
             $envelope->result = $handler($envelope->message);
 
-            $this->logger->info('Message {class} was handled', [
+            $this->logger->info($this->topic.' {class} was handled', [
                 'class' => get_class($envelope->message),
             ]);
         }
