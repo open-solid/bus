@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Bridge\Symfony\DependencyInjection\Configurator;
+namespace OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\Configurator;
 
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\ChildDefinition;

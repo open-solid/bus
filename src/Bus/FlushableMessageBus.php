@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Bus;
+namespace OpenSolid\Messenger\Bus;
 
 interface FlushableMessageBus
 {

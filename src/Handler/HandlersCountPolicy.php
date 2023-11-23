@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Handler;
+namespace OpenSolid\Messenger\Handler;
 
 enum HandlersCountPolicy
 {

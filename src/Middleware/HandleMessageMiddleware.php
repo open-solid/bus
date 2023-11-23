@@ -1,14 +1,14 @@
 <?php
 
-namespace Yceruto\Messenger\Middleware;
+namespace OpenSolid\Messenger\Middleware;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Yceruto\Messenger\Error\SingleHandlerForMessage;
-use Yceruto\Messenger\Error\NoHandlerForMessage;
-use Yceruto\Messenger\Handler\HandlersCountPolicy;
-use Yceruto\Messenger\Model\Envelope;
+use OpenSolid\Messenger\Error\SingleHandlerForMessage;
+use OpenSolid\Messenger\Error\NoHandlerForMessage;
+use OpenSolid\Messenger\Handler\HandlersCountPolicy;
+use OpenSolid\Messenger\Model\Envelope;
 
 /**
  * Handles a message with a handler.

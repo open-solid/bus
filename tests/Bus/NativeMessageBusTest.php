@@ -1,12 +1,12 @@
 <?php
 
-namespace Yceruto\Tests\Messenger\Bus;
+namespace OpenSolid\Tests\Messenger\Bus;
 
 use PHPUnit\Framework\TestCase;
-use Yceruto\Messenger\Bus\NativeMessageBus;
-use Yceruto\Messenger\Handler\HandlersLocator;
-use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
-use Yceruto\Tests\Messenger\Fixtures\MyMessage;
+use OpenSolid\Messenger\Bus\NativeMessageBus;
+use OpenSolid\Messenger\Handler\HandlersLocator;
+use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessage;
 
 class NativeMessageBusTest extends TestCase
 {

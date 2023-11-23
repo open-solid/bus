@@ -1,11 +1,11 @@
 <?php
 
-namespace Yceruto\Messenger\Bus;
+namespace OpenSolid\Messenger\Bus;
 
-use Yceruto\Messenger\Middleware\Middleware;
-use Yceruto\Messenger\Middleware\MiddlewareStack;
-use Yceruto\Messenger\Model\Envelope;
-use Yceruto\Messenger\Model\Message;
+use OpenSolid\Messenger\Middleware\Middleware;
+use OpenSolid\Messenger\Middleware\MiddlewareStack;
+use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Messenger\Model\Message;
 
 final readonly class NativeMessageBus implements MessageBus
 {

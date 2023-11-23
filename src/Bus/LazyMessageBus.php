@@ -1,8 +1,8 @@
 <?php
 
-namespace Yceruto\Messenger\Bus;
+namespace OpenSolid\Messenger\Bus;
 
-use Yceruto\Messenger\Model\Message;
+use OpenSolid\Messenger\Model\Message;
 
 interface LazyMessageBus extends MessageBus, FlushableMessageBus
 {

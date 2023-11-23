@@ -1,9 +1,9 @@
 <?php
 
-namespace Yceruto\Messenger\Handler;
+namespace OpenSolid\Messenger\Handler;
 
 use Psr\Container\ContainerInterface;
-use Yceruto\Messenger\Error\NoHandlerForMessage;
+use OpenSolid\Messenger\Error\NoHandlerForMessage;
 
 /**
  * Maps a message to a list of handlers.

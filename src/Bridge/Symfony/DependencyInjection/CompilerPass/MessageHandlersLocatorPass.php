@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
+namespace OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;

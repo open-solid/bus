@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-composer require yceruto/messenger
+composer require open-solid/messenger
 ```
 
 ## Usage
@@ -14,9 +14,9 @@ The bus sends messages and its actions are guided by a set sequence of middlewar
 
 ```php
 use App\Message\MyMessage;
-use Yceruto\Messenger\Bus\NativeMessageBus;
-use Yceruto\Messenger\Handler\HandlersLocator;
-use Yceruto\Messenger\Middleware\HandlerMiddleware;
+use OpenSolid\Messenger\Bus\NativeMessageBus;
+use OpenSolid\Messenger\Handler\HandlersLocator;
+use OpenSolid\Messenger\Middleware\HandlerMiddleware;
 
 $handler = function (MyMessage $message): mixed {
     // Message processing...
@@ -54,8 +54,8 @@ Middleware is a piece of code that is executed before and after the message hand
 perform any other logic.
 
 ```php
-use Yceruto\Messenger\Middleware\Middleware;
-use Yceruto\Messenger\Model\Envelope;
+use OpenSolid\Messenger\Middleware\Middleware;
+use OpenSolid\Messenger\Model\Envelope;
 
 class MyMiddleware implements Middleware
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Yceruto\Tests\Messenger\Middleware;
+namespace OpenSolid\Tests\Messenger\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use Yceruto\Messenger\Error\NoHandlerForMessage;
-use Yceruto\Messenger\Error\SingleHandlerForMessage;
-use Yceruto\Messenger\Handler\HandlersCountPolicy;
-use Yceruto\Messenger\Handler\HandlersLocator;
-use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
-use Yceruto\Messenger\Model\Envelope;
-use Yceruto\Tests\Messenger\Fixtures\MyMessage;
-use Yceruto\Tests\Messenger\Fixtures\MyMessageHandler;
+use OpenSolid\Messenger\Error\NoHandlerForMessage;
+use OpenSolid\Messenger\Error\SingleHandlerForMessage;
+use OpenSolid\Messenger\Handler\HandlersCountPolicy;
+use OpenSolid\Messenger\Handler\HandlersLocator;
+use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;
+use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessage;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessageHandler;
 
 class HandleMessageMiddlewareTest extends TestCase
 {
@@ -29,7 +29,7 @@ class HandleMessageMiddlewareTest extends TestCase
     public function testNoHandlerForMessage(): void
     {
         $this->expectException(NoHandlerForMessage::class);
-        $this->expectExceptionMessage('No handler for message "Yceruto\Tests\Messenger\Fixtures\MyMessage".');
+        $this->expectExceptionMessage('No handler for message "OpenSolid\Tests\Messenger\Fixtures\MyMessage".');
 
         $handlerMiddleware = new HandleMessageMiddleware(new HandlersLocator([]), HandlersCountPolicy::SINGLE_HANDLER);
         $envelop = Envelope::wrap(new MyMessage());
@@ -39,7 +39,7 @@ class HandleMessageMiddlewareTest extends TestCase
     public function testSingleHandlerForMessage(): void
     {
         $this->expectException(SingleHandlerForMessage::class);
-        $this->expectExceptionMessage('Message of type "Yceruto\Tests\Messenger\Fixtures\MyMessage" was handled multiple times. Only one handler is expected.');
+        $this->expectExceptionMessage('Message of type "OpenSolid\Tests\Messenger\Fixtures\MyMessage" was handled multiple times. Only one handler is expected.');
 
         $handlerMiddleware = new HandleMessageMiddleware(new HandlersLocator([
             MyMessage::class => [

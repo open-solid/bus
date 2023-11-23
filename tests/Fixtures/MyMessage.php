@@ -1,8 +1,8 @@
 <?php
 
-namespace Yceruto\Tests\Messenger\Fixtures;
+namespace OpenSolid\Tests\Messenger\Fixtures;
 
-use Yceruto\Messenger\Model\Message;
+use OpenSolid\Messenger\Model\Message;
 
 /**
  * @psalm-immutable

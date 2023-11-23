@@ -4,15 +4,15 @@ namespace Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Yceruto\Messenger\Error\NoHandlerForMessage;
-use Yceruto\Messenger\Error\SingleHandlerForMessage;
-use Yceruto\Messenger\Handler\HandlersCountPolicy;
-use Yceruto\Messenger\Handler\HandlersLocator;
-use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
-use Yceruto\Messenger\Middleware\LogMessageMiddleware;
-use Yceruto\Messenger\Model\Envelope;
-use Yceruto\Tests\Messenger\Fixtures\MyMessage;
-use Yceruto\Tests\Messenger\Fixtures\MyMessageHandler;
+use OpenSolid\Messenger\Error\NoHandlerForMessage;
+use OpenSolid\Messenger\Error\SingleHandlerForMessage;
+use OpenSolid\Messenger\Handler\HandlersCountPolicy;
+use OpenSolid\Messenger\Handler\HandlersLocator;
+use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;
+use OpenSolid\Messenger\Middleware\LogMessageMiddleware;
+use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessage;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessageHandler;
 
 class LogMessageMiddlewareTest extends TestCase
 {

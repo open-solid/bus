@@ -1,9 +1,9 @@
 <?php
 
-namespace Yceruto\Messenger\Middleware;
+namespace OpenSolid\Messenger\Middleware;
 
 use Psr\Log\LoggerInterface;
-use Yceruto\Messenger\Model\Envelope;
+use OpenSolid\Messenger\Model\Envelope;
 
 final readonly class LogMessageMiddleware implements Middleware
 {

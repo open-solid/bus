@@ -1,8 +1,8 @@
 <?php
 
-namespace Yceruto\Messenger\Middleware;
+namespace OpenSolid\Messenger\Middleware;
 
-use Yceruto\Messenger\Model\Envelope;
+use OpenSolid\Messenger\Model\Envelope;
 
 /**
  * @internal

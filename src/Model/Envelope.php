@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Model;
+namespace OpenSolid\Messenger\Model;
 
 final class Envelope
 {

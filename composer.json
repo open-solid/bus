@@ -1,5 +1,5 @@
 {
-    "name": "yceruto/messenger",
+    "name": "open-solid/messenger",
     "description": "Simple Messenger Component",
     "type": "library",
     "license": "MIT",
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yceruto\\Messenger\\": "src/"
+            "OpenSolid\\Messenger\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yceruto\\Tests\\Messenger\\": "tests/"
+            "OpenSolid\\Tests\\Messenger\\": "tests/"
         }
     },
     "scripts": {

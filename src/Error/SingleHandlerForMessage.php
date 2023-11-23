@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Messenger\Error;
+namespace OpenSolid\Messenger\Error;
 
 class SingleHandlerForMessage extends \LogicException
 {

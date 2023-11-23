@@ -1,9 +1,9 @@
 <?php
 
-namespace Yceruto\Messenger\Bus;
+namespace OpenSolid\Messenger\Bus;
 
 use Symfony\Contracts\Service\ResetInterface;
-use Yceruto\Messenger\Model\Message;
+use OpenSolid\Messenger\Model\Message;
 
 class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
 {

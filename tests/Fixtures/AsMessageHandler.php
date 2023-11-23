@@ -1,6 +1,6 @@
 <?php
 
-namespace Yceruto\Tests\Messenger\Fixtures;
+namespace OpenSolid\Tests\Messenger\Fixtures;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class AsMessageHandler

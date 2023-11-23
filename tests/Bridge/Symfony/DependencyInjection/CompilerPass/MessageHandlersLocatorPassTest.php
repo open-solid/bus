@@ -1,19 +1,19 @@
 <?php
 
-namespace Yceruto\Tests\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
+namespace OpenSolid\Tests\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
 use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\DependencyInjection\Compiler\AttributeAutoconfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Yceruto\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass\MessageHandlersLocatorPass;
-use Yceruto\Messenger\Bridge\Symfony\DependencyInjection\Configurator\MessageHandlerConfigurator;
-use Yceruto\Messenger\Handler\HandlersCountPolicy;
-use Yceruto\Messenger\Middleware\HandleMessageMiddleware;
-use Yceruto\Tests\Messenger\Fixtures\AsMessageHandler;
-use Yceruto\Tests\Messenger\Fixtures\MyMessage;
-use Yceruto\Tests\Messenger\Fixtures\MyMessageHandler;
+use OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass\MessageHandlersLocatorPass;
+use OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\Configurator\MessageHandlerConfigurator;
+use OpenSolid\Messenger\Handler\HandlersCountPolicy;
+use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;
+use OpenSolid\Tests\Messenger\Fixtures\AsMessageHandler;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessage;
+use OpenSolid\Tests\Messenger\Fixtures\MyMessageHandler;
 
 class MessageHandlersLocatorPassTest extends TestCase
 {
