@@ -5,7 +5,7 @@ namespace OpenSolid\Messenger\Middleware;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use OpenSolid\Messenger\Error\SingleHandlerForMessage;
+use OpenSolid\Messenger\Error\MultipleHandlersForMessage;
 use OpenSolid\Messenger\Error\NoHandlerForMessage;
 use OpenSolid\Messenger\Handler\HandlersCountPolicy;
 use OpenSolid\Messenger\Model\Envelope;
@@ -37,13 +37,13 @@ final readonly class HandleMessageMiddleware implements Middleware
                 return;
             }
 
-            throw NoHandlerForMessage::from($class);
+            throw NoHandlerForMessage::create($class);
         }
 
         $handlers = $this->handlersLocator->get($class);
 
         if ($this->handlersCountPolicy->isSingleHandler() && count($handlers) > 1) {
-            throw SingleHandlerForMessage::from($class);
+            throw MultipleHandlersForMessage::create($class);
         }
 
         foreach ($handlers as $handler) {

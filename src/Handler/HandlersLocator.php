@@ -22,7 +22,7 @@ final readonly class HandlersLocator implements ContainerInterface
      */
     public function get(string $id): iterable
     {
-        return $this->handlers[$id] ?? throw NoHandlerForMessage::from($id);
+        return $this->handlers[$id] ?? throw NoHandlerForMessage::create($id);
     }
 
     public function has(string $id): bool

@@ -5,7 +5,7 @@ namespace Middleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use OpenSolid\Messenger\Error\NoHandlerForMessage;
-use OpenSolid\Messenger\Error\SingleHandlerForMessage;
+use OpenSolid\Messenger\Error\MultipleHandlersForMessage;
 use OpenSolid\Messenger\Handler\HandlersCountPolicy;
 use OpenSolid\Messenger\Handler\HandlersLocator;
 use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;

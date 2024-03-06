@@ -2,9 +2,9 @@
 
 namespace OpenSolid\Messenger\Error;
 
-class SingleHandlerForMessage extends \LogicException
+final class MultipleHandlersForMessage extends \LogicException
 {
-    public static function from(string $class): self
+    public static function create(string $class): self
     {
         return new self(sprintf('Message of type "%s" was handled multiple times. Only one handler is expected.', $class));
     }

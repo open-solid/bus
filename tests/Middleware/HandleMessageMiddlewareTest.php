@@ -4,7 +4,7 @@ namespace OpenSolid\Tests\Messenger\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use OpenSolid\Messenger\Error\NoHandlerForMessage;
-use OpenSolid\Messenger\Error\SingleHandlerForMessage;
+use OpenSolid\Messenger\Error\MultipleHandlersForMessage;
 use OpenSolid\Messenger\Handler\HandlersCountPolicy;
 use OpenSolid\Messenger\Handler\HandlersLocator;
 use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;
@@ -38,7 +38,7 @@ class HandleMessageMiddlewareTest extends TestCase
 
     public function testSingleHandlerForMessage(): void
     {
-        $this->expectException(SingleHandlerForMessage::class);
+        $this->expectException(MultipleHandlersForMessage::class);
         $this->expectExceptionMessage('Message of type "OpenSolid\Tests\Messenger\Fixtures\MyMessage" was handled multiple times. Only one handler is expected.');
 
         $handlerMiddleware = new HandleMessageMiddleware(new HandlersLocator([

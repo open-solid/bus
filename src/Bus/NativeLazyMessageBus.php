@@ -5,7 +5,7 @@ namespace OpenSolid\Messenger\Bus;
 use Symfony\Contracts\Service\ResetInterface;
 use OpenSolid\Messenger\Model\Message;
 
-class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
+final class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
 {
     private array $messages = [];
 
