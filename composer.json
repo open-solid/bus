@@ -18,7 +18,8 @@
         "vimeo/psalm": "^5.0",
         "phpunit/phpunit": "^10.0",
         "psalm/plugin-phpunit": "^0.18",
-        "symfony/dependency-injection": "^7.0"
+        "symfony/dependency-injection": "^7.0",
+        "doctrine/orm": "^3.1"
     },
     "autoload": {
         "psr-4": {
@@ -33,6 +34,5 @@
     "scripts": {
         "test": "vendor/bin/phpunit tests",
         "psalm": "vendor/bin/psalm --show-info=true"
-    },
-    "minimum-stability": "dev"
+    }
 }
