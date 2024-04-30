@@ -1,6 +1,6 @@
-# Simple Messenger
+# Simple Messenger Component
 
-## Setting It Up
+## Installation
 
 First things first, you need to add Simple Messenger to your project. Open your terminal and type in:
 
@@ -8,7 +8,7 @@ First things first, you need to add Simple Messenger to your project. Open your 
 composer require open-solid/messenger
 ```
 
-## How to Use It
+## Usage
 
 ### Sending Messages with the Bus
 
@@ -78,10 +78,10 @@ class MyMiddleware implements Middleware
 }
 ```
 
-## Integration with other Frameworks
+## Framework Integration
 
  * [cqs-bundle](https://github.com/open-solid/cqs-bundle) - Symfony bundle for using Simple Messenger with the Command-Query Separation pattern.
 
-## License Info
+## License
 
 This tool is available under the [MIT License](LICENSE), which means you can use it pretty freely in your projects.
