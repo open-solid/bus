@@ -80,7 +80,8 @@ class MyMiddleware implements Middleware
 
 ## Framework Integration
 
- * [cqs-bundle](https://github.com/open-solid/cqs-bundle) - Symfony bundle for using Simple Messenger with the Command-Query Separation pattern.
+ * [cqs-bundle](https://github.com/open-solid/cqs-bundle) - Symfony bundle for Command-Query buses.
+ * [domain-event-bundle](https://github.com/open-solid/domain-event-bundle) - Symfony bundle for Event bus.
 
 ## License
 
