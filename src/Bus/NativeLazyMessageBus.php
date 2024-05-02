@@ -22,10 +22,9 @@ final class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
 
     public function flush(): void
     {
-        foreach ($this->messages as $message) {
+        while ($message = array_shift($this->messages)) {
             $this->bus->dispatch($message);
         }
-        $this->messages = [];
     }
 
     public function reset(): void

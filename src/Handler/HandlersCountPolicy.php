@@ -17,4 +17,9 @@ enum HandlersCountPolicy
     {
         return self::SINGLE_HANDLER === $this;
     }
+
+    public function isMultipleHandlers(): bool
+    {
+        return self::MULTIPLE_HANDLERS === $this;
+    }
 }
