@@ -2,7 +2,7 @@
 
 ## Installation
 
-First things first, you need to add Simple Messenger to your project. Open your terminal and type in:
+First things first, you need to add the Messenger package to your project. Open your terminal and type in:
 
 ```bash
 composer require open-solid/messenger
@@ -63,15 +63,16 @@ Here’s how to create one:
 
 ```php
 use OpenSolid\Messenger\Middleware\Middleware;
+use OpenSolid\Messenger\Middleware\NextMiddleware;
 use OpenSolid\Messenger\Model\Envelope;
 
 class MyMiddleware implements Middleware
 {
-    public function handle(Envelope $envelope, callable $next): void
+    public function handle(Envelope $envelope, NextMiddleware $next): void
     {
         // Do something before the message handler works.
 
-        $next($envelope); // Pass the message along.
+        $next->handle($envelope); // Pass the message along.
 
         // Do something after the message handler is done.
     }
