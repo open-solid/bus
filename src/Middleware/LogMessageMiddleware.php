@@ -16,12 +16,12 @@ final readonly class LogMessageMiddleware implements Middleware
     /**
      * {@inheritdoc}
      */
-    public function handle(Envelope $envelope, callable $next): void
+    public function handle(Envelope $envelope, NextMiddleware $next): void
     {
         $this->logger->info(sprintf('Received %s {class}', $this->topic), [
             'class' => get_class($envelope->message),
         ]);
 
-        $next($envelope);
+        $next->handle($envelope);
     }
 }

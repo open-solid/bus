@@ -73,19 +73,19 @@ trait PriorityTaggedServiceTrait
 
                 if (isset($attribute['priority'])) {
                     $priority = $attribute['priority'];
-                } elseif (null === $defaultPriority && $defaultPriorityMethod && $class) {
+                } elseif (null === $defaultPriority && null !== $defaultPriorityMethod && null !== $class) {
                     $defaultPriority = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultPriorityMethod, $tagName, 'priority', $checkTaggedItem);
                 }
                 $priority ??= $defaultPriority ??= 0;
 
-                if (null === $indexAttribute && !$defaultIndexMethod && !$needsIndexes) {
+                if (null === $indexAttribute && null === $defaultIndexMethod && !$needsIndexes) {
                     $services[] = [$priority, ++$i, null, $serviceId, null];
                     continue 2;
                 }
 
                 if (null !== $indexAttribute && isset($attribute[$indexAttribute])) {
                     $index = $attribute[$indexAttribute];
-                } elseif (null === $defaultIndex && $defaultPriorityMethod && $class) {
+                } elseif (null === $defaultIndex && null !== $defaultPriorityMethod && null !== $class) {
                     $defaultIndex = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultIndexMethod ?? 'getDefaultName', $tagName, $indexAttribute, $checkTaggedItem);
                 }
                 $index ??= $defaultIndex ??= $serviceId;

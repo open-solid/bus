@@ -9,8 +9,9 @@ final class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
 {
     private array $messages = [];
 
-    public function __construct(private readonly MessageBus $bus)
-    {
+    public function __construct(
+        private readonly MessageBus $bus,
+    ) {
     }
 
     public function dispatch(Message $message): null

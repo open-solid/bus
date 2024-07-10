@@ -2,6 +2,7 @@
 
 namespace Middleware;
 
+use OpenSolid\Messenger\Middleware\NoneMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use OpenSolid\Messenger\Error\NoHandlerForMessage;
@@ -23,6 +24,6 @@ class LogMessageMiddlewareTest extends TestCase
             ->method('info');
 
         $logMessageMiddleware = new LogMessageMiddleware($logger);
-        $logMessageMiddleware->handle(Envelope::wrap(new MyMessage()), static fn () => null);
+        $logMessageMiddleware->handle(Envelope::wrap(new MyMessage()), new NoneMiddleware());
     }
 }

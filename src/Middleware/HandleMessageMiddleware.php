@@ -26,13 +26,13 @@ final readonly class HandleMessageMiddleware implements Middleware
     /**
      * {@inheritdoc}
      */
-    public function handle(Envelope $envelope, callable $next): void
+    public function handle(Envelope $envelope, NextMiddleware $next): void
     {
         $class = get_class($envelope->message);
 
         if (!$this->handlersLocator->has($class)) {
             if ($this->handlersCountPolicy->isNoHandler()) {
-                $next($envelope);
+                $next->handle($envelope);
 
                 return;
             }
@@ -54,6 +54,6 @@ final readonly class HandleMessageMiddleware implements Middleware
             ]);
         }
 
-        $next($envelope);
+        $next->handle($envelope);
     }
 }
