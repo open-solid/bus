@@ -2,6 +2,7 @@
 
 namespace OpenSolid\Tests\Messenger\Middleware;
 
+use OpenSolid\Messenger\Middleware\NoneMiddleware;
 use PHPUnit\Framework\TestCase;
 use OpenSolid\Messenger\Error\NoHandlerForMessage;
 use OpenSolid\Messenger\Error\MultipleHandlersForMessage;
@@ -21,7 +22,7 @@ class HandleMessageMiddlewareTest extends TestCase
             MyMessage::class => [new MyMessageHandler()],
         ]));
         $envelop = Envelope::wrap($message);
-        $handlerMiddleware->handle($envelop, static fn () => null);
+        $handlerMiddleware->handle($envelop, new NoneMiddleware());
 
         $this->assertSame($message, $envelop->result);
     }
@@ -33,7 +34,7 @@ class HandleMessageMiddlewareTest extends TestCase
 
         $handlerMiddleware = new HandleMessageMiddleware(new HandlersLocator([]), HandlersCountPolicy::SINGLE_HANDLER);
         $envelop = Envelope::wrap(new MyMessage());
-        $handlerMiddleware->handle($envelop, static fn () => null);
+        $handlerMiddleware->handle($envelop, new NoneMiddleware());
     }
 
     public function testSingleHandlerForMessage(): void
@@ -48,6 +49,6 @@ class HandleMessageMiddlewareTest extends TestCase
             ],
         ]), HandlersCountPolicy::SINGLE_HANDLER);
         $envelop = Envelope::wrap(new MyMessage());
-        $handlerMiddleware->handle($envelop, static fn () => null);
+        $handlerMiddleware->handle($envelop, new NoneMiddleware());
     }
 }

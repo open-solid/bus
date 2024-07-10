@@ -2,6 +2,8 @@
 
 namespace OpenSolid\Messenger\Middleware;
 
+use Generator;
+use Iterator;
 use OpenSolid\Messenger\Model\Envelope;
 
 /**
@@ -10,26 +12,35 @@ use OpenSolid\Messenger\Model\Envelope;
 final readonly class MiddlewareStack
 {
     /**
-     * @param \Traversable<Middleware>|iterable<Middleware> $middlewares
+     * @var Iterator<int, Middleware>
      */
-    public function __construct(private iterable $middlewares)
+    private Iterator $iterator;
+
+    /**
+     * @param iterable<Middleware> $middlewares
+     */
+    public function __construct(iterable $middlewares)
     {
+        $this->iterator = (static fn (): Generator => yield from $middlewares)();
     }
 
     public function handle(Envelope $envelope): void
     {
-        $next = static fn (): null => null;
-
-        if ($this->middlewares instanceof \Traversable) {
-            $middlewares = iterator_to_array($this->middlewares);
-        } else {
-            $middlewares = $this->middlewares;
+        if (!$this->iterator->valid()) {
+            return;
         }
 
-        foreach (array_reverse($middlewares) as $middleware) {
-            $next = static fn (Envelope $envelope): null => $middleware->handle($envelope, $next);
+        $this->iterator->current()->handle($envelope, $this->next());
+    }
+
+    public function next(): NextMiddleware
+    {
+        $this->iterator->next();
+
+        if (!$this->iterator->valid()) {
+            return new NoneMiddleware();
         }
 
-        $next($envelope);
+        return new SomeMiddleware($this->iterator->current(), $this);
     }
 }

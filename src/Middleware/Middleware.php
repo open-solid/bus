@@ -9,8 +9,5 @@ use OpenSolid\Messenger\Model\Envelope;
  */
 interface Middleware
 {
-    /**
-     * @param callable(Envelope): void $next
-     */
-    public function handle(Envelope $envelope, callable $next): void;
+    public function handle(Envelope $envelope, NextMiddleware $next): void;
 }
