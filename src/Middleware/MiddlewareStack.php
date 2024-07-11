@@ -9,38 +9,36 @@ use OpenSolid\Messenger\Model\Envelope;
 /**
  * @internal
  */
-final readonly class MiddlewareStack
+final class MiddlewareStack
 {
-    /**
-     * @var Iterator<int, Middleware>
-     */
-    private Iterator $iterator;
-
     /**
      * @param iterable<Middleware> $middlewares
      */
-    public function __construct(iterable $middlewares)
-    {
-        $this->iterator = (static fn (): Generator => yield from $middlewares)();
+    public function __construct(
+        private iterable $middlewares,
+    ) {
     }
 
     public function handle(Envelope $envelope): void
     {
-        if (!$this->iterator->valid()) {
+        /** @var Iterator<int, Middleware> $iterator */
+        $iterator = (fn (): Generator => yield from $this->middlewares)();
+
+        if (!$iterator->valid()) {
             return;
         }
 
-        $this->iterator->current()->handle($envelope, $this->next());
+        $iterator->current()->handle($envelope, $this->next($iterator));
     }
 
-    public function next(): NextMiddleware
+    private function next(Iterator $iterator): NextMiddleware
     {
-        $this->iterator->next();
+        $iterator->next();
 
-        if (!$this->iterator->valid()) {
-            return new NoneMiddleware();
+        if ($iterator->valid()) {
+            return new SomeMiddleware($iterator->current(), fn () => $this->next($iterator));
         }
 
-        return new SomeMiddleware($this->iterator->current(), $this);
+        return new NoneMiddleware();
     }
 }
