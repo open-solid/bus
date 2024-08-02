@@ -9,7 +9,7 @@ use OpenSolid\Messenger\Model\Envelope;
 /**
  * @internal
  */
-final class MiddlewareStack
+final readonly class MiddlewareStack
 {
     /**
      * @param iterable<Middleware> $middlewares

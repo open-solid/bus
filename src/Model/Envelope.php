@@ -11,7 +11,8 @@ final class Envelope
         return new self($message);
     }
 
-    private function __construct(public readonly Message $message)
-    {
+    private function __construct(
+        public readonly Message $message,
+    ) {
     }
 }

@@ -10,9 +10,6 @@ use OpenSolid\Messenger\Error\NoHandlerForMessage;
 use OpenSolid\Messenger\Handler\HandlersCountPolicy;
 use OpenSolid\Messenger\Model\Envelope;
 
-/**
- * Handles a message with a handler.
- */
 final readonly class HandleMessageMiddleware implements Middleware
 {
     public function __construct(
@@ -23,12 +20,9 @@ final readonly class HandleMessageMiddleware implements Middleware
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
-        $class = get_class($envelope->message);
+        $class = $envelope->message::class;
 
         if (!$this->handlersLocator->has($class)) {
             if ($this->handlersCountPolicy->isNoHandler()) {

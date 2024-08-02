@@ -16,6 +16,6 @@ final readonly class DoctrineTransactionMiddleware implements Middleware
 
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
-        $this->em->wrapInTransaction(static fn () => $next->handle($envelope));
+        $this->em->wrapInTransaction(fn () => $next->handle($envelope));
     }
 }
