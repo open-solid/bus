@@ -6,7 +6,7 @@ use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final readonly class MessageHandlerConfigurator
+final readonly class ObjectHandlerConfigurator
 {
     /**
      * @param class-string $attributeClass
@@ -37,7 +37,7 @@ final readonly class MessageHandlerConfigurator
                 }
 
                 if ($attribute instanceof $attributeClass) {
-                    $definition->addTag($tagName, $attributes + ['message' => $type->getName()]);
+                    $definition->addTag($tagName, $attributes + ['class' => $type->getName()]);
                 }
             },
         );

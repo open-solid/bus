@@ -6,13 +6,13 @@ final class Envelope
 {
     public mixed $result = null;
 
-    public static function wrap(Message $message): self
+    public static function wrap(object $object): self
     {
-        return new self($message);
+        return new self($object);
     }
 
     private function __construct(
-        public readonly Message $message,
+        public readonly object $object,
     ) {
     }
 }

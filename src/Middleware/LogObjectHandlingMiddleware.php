@@ -5,21 +5,18 @@ namespace OpenSolid\Messenger\Middleware;
 use Psr\Log\LoggerInterface;
 use OpenSolid\Messenger\Model\Envelope;
 
-final readonly class LogMessageMiddleware implements Middleware
+final readonly class LogObjectHandlingMiddleware implements Middleware
 {
     public function __construct(
         private LoggerInterface $logger,
-        private string $topic = 'message',
+        private string $topic = 'object',
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
-        $this->logger->info(sprintf('Received %s {class}', $this->topic), [
-            'class' => get_class($envelope->message),
+        $this->logger->info(sprintf('Received %s of type {class}', $this->topic), [
+            'class' => $envelope->object::class,
         ]);
 
         $next->handle($envelope);

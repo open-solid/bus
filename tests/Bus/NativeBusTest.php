@@ -3,18 +3,18 @@
 namespace OpenSolid\Tests\Messenger\Bus;
 
 use PHPUnit\Framework\TestCase;
-use OpenSolid\Messenger\Bus\NativeMessageBus;
-use OpenSolid\Messenger\Handler\HandlersLocator;
-use OpenSolid\Messenger\Middleware\HandleMessageMiddleware;
+use OpenSolid\Messenger\Bus\NativeBus;
+use OpenSolid\Messenger\Handler\ObjectHandlersLocator;
+use OpenSolid\Messenger\Middleware\HandleObjectMiddleware;
 use OpenSolid\Tests\Messenger\Fixtures\MyMessage;
 
-class NativeMessageBusTest extends TestCase
+class NativeBusTest extends TestCase
 {
     public function testDispatch(): void
     {
         $handler = static fn(MyMessage $message): MyMessage => $message;
-        $bus = new NativeMessageBus([
-            new HandleMessageMiddleware(new HandlersLocator([
+        $bus = new NativeBus([
+            new HandleObjectMiddleware(new ObjectHandlersLocator([
                 MyMessage::class => [$handler],
             ])),
         ]);
