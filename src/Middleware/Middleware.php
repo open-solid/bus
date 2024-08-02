@@ -1,11 +1,11 @@
 <?php
 
-namespace OpenSolid\Messenger\Middleware;
+namespace OpenSolid\Bus\Middleware;
 
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Model\Envelope;
 
 /**
- * Handles an Envelope object and pass control to the next middleware in the stack.
+ * Handles an Envelope message and pass control to the next middleware in the stack.
  */
 interface Middleware
 {

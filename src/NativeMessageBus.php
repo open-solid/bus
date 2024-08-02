@@ -1,12 +1,12 @@
 <?php
 
-namespace OpenSolid\Messenger\Bus;
+namespace OpenSolid\Bus;
 
-use OpenSolid\Messenger\Middleware\Middleware;
-use OpenSolid\Messenger\Middleware\MiddlewareStack;
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Middleware\Middleware;
+use OpenSolid\Bus\Middleware\MiddlewareStack;
+use OpenSolid\Bus\Model\Envelope;
 
-final readonly class NativeBus implements Bus
+final readonly class NativeMessageBus implements MessageBus
 {
     private MiddlewareStack $middlewares;
 
@@ -18,9 +18,9 @@ final readonly class NativeBus implements Bus
         $this->middlewares = new MiddlewareStack($middlewares);
     }
 
-    public function dispatch(object $object): mixed
+    public function dispatch(object $message): mixed
     {
-        $envelope = Envelope::wrap($object);
+        $envelope = Envelope::wrap($message);
 
         $this->middlewares->handle($envelope);
 

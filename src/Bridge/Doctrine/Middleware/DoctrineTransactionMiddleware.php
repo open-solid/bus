@@ -1,11 +1,11 @@
 <?php
 
-namespace OpenSolid\Messenger\Bridge\Doctrine\Middleware;
+namespace OpenSolid\Bus\Bridge\Doctrine\Middleware;
 
 use Doctrine\ORM\EntityManagerInterface;
-use OpenSolid\Messenger\Middleware\Middleware;
-use OpenSolid\Messenger\Middleware\NextMiddleware;
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Middleware\Middleware;
+use OpenSolid\Bus\Middleware\NextMiddleware;
+use OpenSolid\Bus\Model\Envelope;
 
 final readonly class DoctrineTransactionMiddleware implements Middleware
 {

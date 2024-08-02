@@ -1,10 +1,10 @@
 <?php
 
-namespace OpenSolid\Messenger\Middleware;
+namespace OpenSolid\Bus\Middleware;
 
 use Generator;
 use Iterator;
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Model\Envelope;
 
 /**
  * @internal

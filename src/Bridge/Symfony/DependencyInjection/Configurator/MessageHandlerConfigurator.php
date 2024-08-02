@@ -1,12 +1,12 @@
 <?php
 
-namespace OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\Configurator;
+namespace OpenSolid\Bus\Bridge\Symfony\DependencyInjection\Configurator;
 
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final readonly class ObjectHandlerConfigurator
+final readonly class MessageHandlerConfigurator
 {
     /**
      * @param class-string $attributeClass

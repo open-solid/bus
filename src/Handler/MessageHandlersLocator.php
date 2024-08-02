@@ -1,14 +1,14 @@
 <?php
 
-namespace OpenSolid\Messenger\Handler;
+namespace OpenSolid\Bus\Handler;
 
 use Psr\Container\ContainerInterface;
-use OpenSolid\Messenger\Error\NoHandlerForObject;
+use OpenSolid\Bus\Error\NoHandlerForMessage;
 
 /**
- * Maps an object class to a list of handlers.
+ * Maps a message class to a list of handlers.
  */
-final readonly class ObjectHandlersLocator implements ContainerInterface
+final readonly class MessageHandlersLocator implements ContainerInterface
 {
     /**
      * @param array<class-string, iterable<callable>> $handlers
@@ -23,7 +23,7 @@ final readonly class ObjectHandlersLocator implements ContainerInterface
      */
     public function get(string $id): iterable
     {
-        return $this->handlers[$id] ?? throw NoHandlerForObject::from($id);
+        return $this->handlers[$id] ?? throw NoHandlerForMessage::from($id);
     }
 
     public function has(string $id): bool

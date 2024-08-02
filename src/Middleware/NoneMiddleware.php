@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenSolid\Messenger\Middleware;
+namespace OpenSolid\Bus\Middleware;
 
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Model\Envelope;
 
 /**
  * @internal

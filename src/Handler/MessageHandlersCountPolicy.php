@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenSolid\Messenger\Handler;
+namespace OpenSolid\Bus\Handler;
 
-enum HandlersCountPolicy
+enum MessageHandlersCountPolicy
 {
     case NO_HANDLER;
     case SINGLE_HANDLER;

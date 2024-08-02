@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
+namespace OpenSolid\Bus\Bridge\Symfony\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;

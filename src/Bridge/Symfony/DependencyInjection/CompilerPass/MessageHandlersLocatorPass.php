@@ -1,31 +1,31 @@
 <?php
 
-namespace OpenSolid\Messenger\Bridge\Symfony\DependencyInjection\CompilerPass;
+namespace OpenSolid\Bus\Bridge\Symfony\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final readonly class ObjectHandlersLocatorPass implements CompilerPassInterface
+final readonly class MessageHandlersLocatorPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
     public function __construct(
-        private string $objectHandlerTagName,
-        private string $objectHandlerMiddlewareId,
+        private string $messageHandlerTagName,
+        private string $messageHandlerMiddlewareId,
         private bool $allowMultiple = false,
     ) {
     }
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has($this->objectHandlerMiddlewareId)) {
+        if (!$container->has($this->messageHandlerMiddlewareId)) {
             return;
         }
 
         $handlers = $this->findAndSortTaggedServices(
-            new TaggedIteratorArgument($this->objectHandlerTagName, 'class'),
+            new TaggedIteratorArgument($this->messageHandlerTagName, 'class'),
             $container,
             [],
             $this->allowMultiple,
@@ -40,7 +40,7 @@ final readonly class ObjectHandlersLocatorPass implements CompilerPassInterface
             }
         }
 
-        $middleware = $container->findDefinition($this->objectHandlerMiddlewareId);
+        $middleware = $container->findDefinition($this->messageHandlerMiddlewareId);
         $middleware->replaceArgument(0, new ServiceLocatorArgument($refs));
     }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "open-solid/messenger",
-    "description": "Simple Messenger Component",
+    "name": "open-solid/bus",
+    "description": "Simple Bus Component",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OpenSolid\\Messenger\\": "src/"
+            "OpenSolid\\Bus\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OpenSolid\\Tests\\Messenger\\": "tests/"
+            "OpenSolid\\Tests\\Bus\\": "tests/"
         }
     },
     "scripts": {

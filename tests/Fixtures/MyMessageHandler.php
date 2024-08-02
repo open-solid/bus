@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenSolid\Tests\Messenger\Fixtures;
+namespace OpenSolid\Tests\Bus\Fixtures;
 
 #[AsMessageHandler]
 class MyMessageHandler

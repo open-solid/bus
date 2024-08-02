@@ -1,18 +1,18 @@
 <?php
 
-namespace OpenSolid\Messenger\Model;
+namespace OpenSolid\Bus\Model;
 
 final class Envelope
 {
     public mixed $result = null;
 
-    public static function wrap(object $object): self
+    public static function wrap(object $message): self
     {
-        return new self($object);
+        return new self($message);
     }
 
     private function __construct(
-        public readonly object $object,
+        public readonly object $message,
     ) {
     }
 }

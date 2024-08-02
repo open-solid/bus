@@ -1,13 +1,13 @@
 <?php
 
-namespace OpenSolid\Tests\Messenger\Middleware;
+namespace OpenSolid\Tests\Bus\Middleware;
 
-use OpenSolid\Messenger\Middleware\NextMiddleware;
+use OpenSolid\Bus\Middleware\NextMiddleware;
 use PHPUnit\Framework\TestCase;
-use OpenSolid\Messenger\Middleware\MiddlewareStack;
-use OpenSolid\Messenger\Middleware\Middleware;
-use OpenSolid\Messenger\Model\Envelope;
-use OpenSolid\Tests\Messenger\Fixtures\MyMessage;
+use OpenSolid\Bus\Middleware\MiddlewareStack;
+use OpenSolid\Bus\Middleware\Middleware;
+use OpenSolid\Bus\Model\Envelope;
+use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 
 class MiddlewareStackTest extends TestCase
 {

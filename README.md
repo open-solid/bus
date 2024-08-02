@@ -1,26 +1,27 @@
-# Simple Messenger Component
+# Simple Bus Component
 
 ## Installation
 
-First things first, you need to add the Messenger package to your project. Open your terminal and type in:
+First things first, you need to add the package to your project. Open your terminal and type in:
 
 ```bash
-composer require open-solid/messenger
+composer require open-solid/bus
 ```
 
 ## Usage
 
-### Sending Messages with the Bus
+### Dispatching Message with the Bus
 
-Think of the "bus" as a mail delivery system for your messages. It follows a specific path, decided by some rules (middleware), to send your messages.
+Think of the "bus" as a mail delivery system for your messages. It follows a specific path, decided 
+by some rules (middleware), to send your messages.
 
-Here's a snippet on how to set it up and send a message:
+Here's a snippet on how to set it up and dispatch a message:
 
 ```php
 use App\Message\MyMessage;
-use OpenSolid\Messenger\Bus\NativeMessageBus;
-use OpenSolid\Messenger\Handler\HandlersLocator;
-use OpenSolid\Messenger\Middleware\HandlerMiddleware;
+use OpenSolid\Bus\Handler\MessageHandlersLocator;
+use OpenSolid\Bus\Middleware\HandlingMiddleware;
+use OpenSolid\Bus\NativeBus;
 
 // This is your custom function that does something when a message arrives.
 $handler = function (MyMessage $message): mixed {
@@ -28,8 +29,8 @@ $handler = function (MyMessage $message): mixed {
 };
 
 // Setting up the bus with a middleware that knows who handles the message.
-$bus = new NativeMessageBus([
-    new HandlerMiddleware(new HandlersLocator([
+$bus = new NativeBus([
+    new HandlingMiddleware(new MessageHandlersLocator([
         MyMessage::class => [$handler], // Match messages to handlers.
     ])),
 ]);
@@ -55,16 +56,16 @@ class MyMessageHandler
 }
 ```
 
-### Middleware Magic
+### Middleware
 
 Middleware are helpers that do stuff before and after your message is handled. They can change the message or do other tasks.
 
 Here’s how to create one:
 
 ```php
-use OpenSolid\Messenger\Middleware\Middleware;
-use OpenSolid\Messenger\Middleware\NextMiddleware;
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Middleware\Middleware;
+use OpenSolid\Bus\Middleware\NextMiddleware;
+use OpenSolid\Bus\Model\Envelope;
 
 class MyMiddleware implements Middleware
 {

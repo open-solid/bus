@@ -1,9 +1,9 @@
 <?php
 
-namespace OpenSolid\Messenger\Middleware;
+namespace OpenSolid\Bus\Middleware;
 
 use Closure;
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Model\Envelope;
 
 /**
  * @internal

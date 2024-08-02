@@ -1,28 +1,28 @@
 <?php
 
-namespace OpenSolid\Messenger\Middleware;
+namespace OpenSolid\Bus\Middleware;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use OpenSolid\Messenger\Error\MultipleHandlersForObject;
-use OpenSolid\Messenger\Error\NoHandlerForObject;
-use OpenSolid\Messenger\Handler\HandlersCountPolicy;
-use OpenSolid\Messenger\Model\Envelope;
+use OpenSolid\Bus\Error\MultipleHandlersForMessage;
+use OpenSolid\Bus\Error\NoHandlerForMessage;
+use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
+use OpenSolid\Bus\Model\Envelope;
 
-final readonly class HandleObjectMiddleware implements Middleware
+final readonly class HandlingMiddleware implements Middleware
 {
     public function __construct(
         private ContainerInterface $handlersLocator,
-        private HandlersCountPolicy $handlersCountPolicy = HandlersCountPolicy::MULTIPLE_HANDLERS,
+        private MessageHandlersCountPolicy $handlersCountPolicy = MessageHandlersCountPolicy::MULTIPLE_HANDLERS,
         private LoggerInterface $logger = new NullLogger(),
-        private string $topic = 'Object',
+        private string $topic = 'Message',
     ) {
     }
 
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
-        $class = $envelope->object::class;
+        $class = $envelope->message::class;
 
         if (!$this->handlersLocator->has($class)) {
             if ($this->handlersCountPolicy->isNoHandler()) {
@@ -31,20 +31,20 @@ final readonly class HandleObjectMiddleware implements Middleware
                 return;
             }
 
-            throw NoHandlerForObject::from($class);
+            throw NoHandlerForMessage::from($class);
         }
 
         $handlers = $this->handlersLocator->get($class);
 
         if ($this->handlersCountPolicy->isSingleHandler() && count($handlers) > 1) {
-            throw MultipleHandlersForObject::from($class);
+            throw MultipleHandlersForMessage::from($class);
         }
 
         foreach ($handlers as $handler) {
-            $envelope->result = $handler($envelope->object);
+            $envelope->result = $handler($envelope->message);
 
             $this->logger->info($this->topic.' of type {class} was handled', [
-                'class' => $envelope->object::class,
+                'class' => $envelope->message::class,
             ]);
         }
 
