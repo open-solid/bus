@@ -41,10 +41,11 @@ final readonly class HandlingMiddleware implements Middleware
         }
 
         foreach ($handlers as $handler) {
-            $envelope->result = $handler($envelope->message);
+            $envelope->addResult($handler($envelope->message));
 
-            $this->logger->info($this->topic.' of type {class} was handled', [
-                'class' => $envelope->message::class,
+            $this->logger->debug($this->topic.' of type {message} was handled by {handler}', [
+                'message' => $envelope->message::class,
+                'handler' => get_debug_type($handler),
             ]);
         }
 

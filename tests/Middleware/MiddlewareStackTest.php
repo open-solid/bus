@@ -16,21 +16,21 @@ class MiddlewareStackTest extends TestCase
         $middleware1 = new class() implements Middleware {
             public function handle(Envelope $envelope, NextMiddleware $next): void
             {
-                $envelope->result = '1';
+                $envelope->addResult('1');
                 $next->handle($envelope);
             }
         };
         $middleware2 = new class() implements Middleware {
             public function handle(Envelope $envelope, NextMiddleware $next): void
             {
-                $envelope->result .= '2';
+                $envelope->addResult('2');
                 $next->handle($envelope);
             }
         };
         $middleware3 = new class() implements Middleware {
             public function handle(Envelope $envelope, NextMiddleware $next): void
             {
-                $envelope->result .= '3';
+                $envelope->addResult('3');
                 $next->handle($envelope);
             }
         };
@@ -38,6 +38,6 @@ class MiddlewareStackTest extends TestCase
         $envelope = Envelope::wrap(new MyMessage());
         $stack->handle($envelope);
 
-        $this->assertSame('123', $envelope->result);
+        $this->assertSame(['1', '2', '3'], $envelope->results());
     }
 }

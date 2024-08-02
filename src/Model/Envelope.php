@@ -2,17 +2,41 @@
 
 namespace OpenSolid\Bus\Model;
 
-final class Envelope
-{
-    public mixed $result = null;
+use OpenSolid\Bus\Model\Stamp\ResultStamp;
+use OpenSolid\Bus\Model\Stamp\Stamps;
 
-    public static function wrap(object $message): self
+final readonly class Envelope
+{
+    public object $message;
+    public Stamps $stamps;
+
+    public static function wrap(object $message, array $stamps = []): self
     {
-        return new self($message);
+        return new self($message, $stamps);
     }
 
-    private function __construct(
-        public readonly object $message,
-    ) {
+    public function addResult(mixed $result): void
+    {
+        $this->stamps->add(new ResultStamp($result));
+    }
+
+    public function results(): mixed
+    {
+        $results = $this->stamps->map(
+            ResultStamp::class,
+            fn (ResultStamp $stamp): mixed => $stamp->result,
+        );
+
+        return match (\count($results)) {
+            0 => null,
+            1 => $results[0],
+            default => $results,
+        };
+    }
+
+    private function __construct(object $message, array $stamps)
+    {
+        $this->message = $message;
+        $this->stamps = new Stamps($stamps);
     }
 }
