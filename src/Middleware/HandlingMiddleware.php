@@ -34,6 +34,12 @@ final readonly class HandlingMiddleware implements Middleware
 
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
+        if ($envelope->stamps->has(HandledStamp::class)) {
+            $next->handle($envelope);
+
+            return;
+        }
+
         $class = $envelope->message::class;
 
         if (!$this->handlersLocator->has($class)) {

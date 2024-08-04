@@ -24,14 +24,10 @@ use OpenSolid\Tests\Bus\Fixtures\AsMessageHandler;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
-use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\DependencyInjection\Compiler\AttributeAutoconfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class MessageHandlersLocatorPassTest extends TestCase
 {

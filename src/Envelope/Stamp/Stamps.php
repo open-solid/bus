@@ -15,16 +15,18 @@ namespace OpenSolid\Bus\Envelope\Stamp;
 
 /**
  * A collection of stamps.
+ *
+ * @template T of Stamp
  */
 final class Stamps implements \Countable
 {
     /**
-     * @param array<class-string, array<Stamp>> $collection
+     * @param array<class-string<T>, array<T>> $collection
      */
     private array $collection = [];
 
     /**
-     * @param array<Stamp> $stamps
+     * @param array<T> $stamps
      */
     public function __construct(array $stamps = [])
     {
@@ -41,8 +43,14 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of Stamp
-     *
+     * @param class-string<T> $class
+     */
+    public function has(string $class): bool
+    {
+        return isset($this->collection[$class]);
+    }
+
+    /**
      * @param class-string<T> $class
      *
      * @return T|null
@@ -53,8 +61,6 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of Stamp
-     *
      * @param class-string<T> $class
      *
      * @return T|null
@@ -69,10 +75,10 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of Stamp
+     * @template U of Stamp
      *
-     * @param class-string<T>   $class
-     * @param \Closure(T): bool $fn
+     * @param class-string<U>   $class
+     * @param \Closure(U): bool $fn
      */
     public function filter(string $class, \Closure $fn): self
     {
@@ -83,10 +89,10 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of Stamp
+     * @template U of Stamp
      *
-     * @param class-string<T>    $class
-     * @param \Closure(T): mixed $fn
+     * @param class-string<U>    $class
+     * @param \Closure(U): mixed $fn
      */
     public function map(string $class, \Closure $fn): array
     {
