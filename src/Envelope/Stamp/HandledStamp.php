@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace OpenSolid\Bus\Envelope\Stamp;
 
+/**
+ * A stamp that marks the message as handled.
+ */
 final readonly class HandledStamp extends Stamp
 {
     public function __construct(

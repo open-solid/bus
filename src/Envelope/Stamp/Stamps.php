@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace OpenSolid\Bus\Envelope\Stamp;
 
+/**
+ * A collection of stamps.
+ */
 final class Stamps implements \Countable
 {
     /**

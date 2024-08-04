@@ -13,7 +13,7 @@ composer require open-solid/bus
 ### Dispatching Message with the Bus
 
 Think of the "bus" as a mail delivery system for your messages. It follows a specific path, decided 
-by some rules (middleware), to send your messages.
+by some rules (middleware), to send your message and handle it.
 
 Here's a snippet on how to set it up and dispatch a message:
 

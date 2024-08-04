@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace OpenSolid\Bus\Envelope\Stamp;
 
+/**
+ * A stamp is a marker that can be used to store metadata and take decisions
+ * during the message journey.
+ */
 abstract readonly class Stamp
 {
 }
