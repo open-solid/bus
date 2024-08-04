@@ -2,18 +2,12 @@
 
 namespace OpenSolid\Tests\Bus\Middleware;
 
+use OpenSolid\Bus\Envelope\Envelope;
+use OpenSolid\Bus\Middleware\LoggingMiddleware;
 use OpenSolid\Bus\Middleware\NoneMiddleware;
+use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use OpenSolid\Bus\Error\NoHandlerForMessage;
-use OpenSolid\Bus\Error\MultipleHandlersForMessage;
-use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
-use OpenSolid\Bus\Handler\MessageHandlersLocator;
-use OpenSolid\Bus\Middleware\HandlingMiddleware;
-use OpenSolid\Bus\Middleware\LoggingMiddleware;
-use OpenSolid\Bus\Model\Envelope;
-use OpenSolid\Tests\Bus\Fixtures\MyMessage;
-use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 
 class LoggingMiddlewareTest extends TestCase
 {

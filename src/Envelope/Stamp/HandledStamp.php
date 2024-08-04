@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenSolid\Bus\Model\Stamp;
+namespace OpenSolid\Bus\Envelope\Stamp;
 
-final readonly class ResultStamp
+final readonly class HandledStamp
 {
     public function __construct(
         public mixed $result,

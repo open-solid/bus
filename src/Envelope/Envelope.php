@@ -1,9 +1,9 @@
 <?php
 
-namespace OpenSolid\Bus\Model;
+namespace OpenSolid\Bus\Envelope;
 
-use OpenSolid\Bus\Model\Stamp\ResultStamp;
-use OpenSolid\Bus\Model\Stamp\Stamps;
+use OpenSolid\Bus\Envelope\Stamp\HandledStamp;
+use OpenSolid\Bus\Envelope\Stamp\Stamps;
 
 final readonly class Envelope
 {
@@ -15,17 +15,11 @@ final readonly class Envelope
         return new self($message, $stamps);
     }
 
-    public function addResult(mixed $result): void
+    public function unwrap(): mixed
     {
-        $this->stamps->add(new ResultStamp($result));
-    }
-
-    public function results(): mixed
-    {
-        $results = $this->stamps->map(
-            ResultStamp::class,
-            fn (ResultStamp $stamp): mixed => $stamp->result,
-        );
+        $results = $this->stamps
+            ->filter(HandledStamp::class, fn (HandledStamp $stamp): bool => null !== $stamp->result)
+            ->map(HandledStamp::class, fn (HandledStamp $stamp): mixed => $stamp->result);
 
         return match (\count($results)) {
             0 => null,

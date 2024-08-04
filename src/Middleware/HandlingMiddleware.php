@@ -2,13 +2,14 @@
 
 namespace OpenSolid\Bus\Middleware;
 
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use OpenSolid\Bus\Envelope\Envelope;
+use OpenSolid\Bus\Envelope\Stamp\HandledStamp;
 use OpenSolid\Bus\Error\MultipleHandlersForMessage;
 use OpenSolid\Bus\Error\NoHandlerForMessage;
 use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
-use OpenSolid\Bus\Model\Envelope;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 final readonly class HandlingMiddleware implements Middleware
 {
@@ -41,7 +42,9 @@ final readonly class HandlingMiddleware implements Middleware
         }
 
         foreach ($handlers as $handler) {
-            $envelope->addResult($handler($envelope->message));
+            $result = $handler($envelope->message);
+
+            $envelope->stamps->add(new HandledStamp($result));
 
             $this->logger->debug($this->topic.' of type {message} was handled by {handler}', [
                 'message' => $envelope->message::class,

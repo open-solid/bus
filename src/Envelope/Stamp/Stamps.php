@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenSolid\Bus\Model\Stamp;
+namespace OpenSolid\Bus\Envelope\Stamp;
 
 final class Stamps
 {
@@ -54,6 +54,14 @@ final class Stamps
     public function all(string $class): array
     {
         return $this->collection[$class] ?? [];
+    }
+
+    public function filter(string $class, \Closure $fn): self
+    {
+        $self = clone $this;
+        $self->collection[$class] = \array_filter($self->collection[$class] ?? [], $fn);
+
+        return $self;
     }
 
     /**

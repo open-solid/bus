@@ -2,7 +2,7 @@
 
 namespace OpenSolid\Bus\Middleware;
 
-use OpenSolid\Bus\Model\Envelope;
+use OpenSolid\Bus\Envelope\Envelope;
 
 /**
  * Handles an Envelope message and pass control to the next middleware in the stack.

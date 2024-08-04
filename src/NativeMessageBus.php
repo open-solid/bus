@@ -2,10 +2,9 @@
 
 namespace OpenSolid\Bus;
 
+use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\MiddlewareStack;
-use OpenSolid\Bus\Model\Envelope;
-use OpenSolid\Bus\Model\Stamp\ResultStamp;
 
 final readonly class NativeMessageBus implements MessageBus
 {
@@ -25,6 +24,6 @@ final readonly class NativeMessageBus implements MessageBus
 
         $this->middlewares->handle($envelope);
 
-        return $envelope->results();
+        return $envelope->unwrap();
     }
 }

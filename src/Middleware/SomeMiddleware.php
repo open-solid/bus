@@ -3,7 +3,7 @@
 namespace OpenSolid\Bus\Middleware;
 
 use Closure;
-use OpenSolid\Bus\Model\Envelope;
+use OpenSolid\Bus\Envelope\Envelope;
 
 /**
  * @internal

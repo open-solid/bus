@@ -2,16 +2,16 @@
 
 namespace OpenSolid\Tests\Bus\Middleware;
 
-use OpenSolid\Bus\Middleware\NoneMiddleware;
-use PHPUnit\Framework\TestCase;
-use OpenSolid\Bus\Error\NoHandlerForMessage;
+use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Error\MultipleHandlersForMessage;
+use OpenSolid\Bus\Error\NoHandlerForMessage;
 use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
 use OpenSolid\Bus\Handler\MessageHandlersLocator;
 use OpenSolid\Bus\Middleware\HandlingMiddleware;
-use OpenSolid\Bus\Model\Envelope;
+use OpenSolid\Bus\Middleware\NoneMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
+use PHPUnit\Framework\TestCase;
 
 class HandlingMiddlewareTest extends TestCase
 {
@@ -24,7 +24,7 @@ class HandlingMiddlewareTest extends TestCase
         $envelop = Envelope::wrap($message);
         $middleware->handle($envelop, new NoneMiddleware());
 
-        $this->assertSame($message, $envelop->results());
+        $this->assertSame($message, $envelop->unwrap());
     }
 
     public function testNoHandlerForObject(): void

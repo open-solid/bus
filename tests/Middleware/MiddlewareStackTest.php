@@ -2,12 +2,13 @@
 
 namespace OpenSolid\Tests\Bus\Middleware;
 
-use OpenSolid\Bus\Middleware\NextMiddleware;
-use PHPUnit\Framework\TestCase;
-use OpenSolid\Bus\Middleware\MiddlewareStack;
+use OpenSolid\Bus\Envelope\Envelope;
+use OpenSolid\Bus\Envelope\Stamp\HandledStamp;
 use OpenSolid\Bus\Middleware\Middleware;
-use OpenSolid\Bus\Model\Envelope;
+use OpenSolid\Bus\Middleware\MiddlewareStack;
+use OpenSolid\Bus\Middleware\NextMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
+use PHPUnit\Framework\TestCase;
 
 class MiddlewareStackTest extends TestCase
 {
@@ -16,21 +17,21 @@ class MiddlewareStackTest extends TestCase
         $middleware1 = new class() implements Middleware {
             public function handle(Envelope $envelope, NextMiddleware $next): void
             {
-                $envelope->addResult('1');
+                $envelope->stamps->add(new HandledStamp('1'));
                 $next->handle($envelope);
             }
         };
         $middleware2 = new class() implements Middleware {
             public function handle(Envelope $envelope, NextMiddleware $next): void
             {
-                $envelope->addResult('2');
+                $envelope->stamps->add(new HandledStamp('2'));
                 $next->handle($envelope);
             }
         };
         $middleware3 = new class() implements Middleware {
             public function handle(Envelope $envelope, NextMiddleware $next): void
             {
-                $envelope->addResult('3');
+                $envelope->stamps->add(new HandledStamp('3'));
                 $next->handle($envelope);
             }
         };
@@ -38,6 +39,6 @@ class MiddlewareStackTest extends TestCase
         $envelope = Envelope::wrap(new MyMessage());
         $stack->handle($envelope);
 
-        $this->assertSame(['1', '2', '3'], $envelope->results());
+        $this->assertSame(['1', '2', '3'], $envelope->unwrap());
     }
 }

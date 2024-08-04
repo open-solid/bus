@@ -3,9 +3,9 @@
 namespace OpenSolid\Bus\Bridge\Doctrine\Middleware;
 
 use Doctrine\ORM\EntityManagerInterface;
+use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\NextMiddleware;
-use OpenSolid\Bus\Model\Envelope;
 
 final readonly class DoctrineTransactionMiddleware implements Middleware
 {

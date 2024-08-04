@@ -2,8 +2,8 @@
 
 namespace OpenSolid\Bus\Middleware;
 
+use OpenSolid\Bus\Envelope\Envelope;
 use Psr\Log\LoggerInterface;
-use OpenSolid\Bus\Model\Envelope;
 
 final readonly class LoggingMiddleware implements Middleware
 {
