@@ -15,37 +15,70 @@ namespace OpenSolid\Tests\Bus\Bridge\Symfony\DependencyInjection\CompilerPass;
 
 use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\CompilerPass\MessageHandlersLocatorPass;
 use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\Configurator\MessageHandlerConfigurator;
+use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
 use OpenSolid\Bus\Middleware\HandlingMiddleware;
+use OpenSolid\Bus\Middleware\Middleware;
+use OpenSolid\Bus\Middleware\NoneMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\AsMessageHandler;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
+use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\DependencyInjection\Compiler\AttributeAutoconfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class MessageHandlersLocatorPassTest extends TestCase
 {
-    public function testProcess(): void
+    public function testMultipleMessageHandlingProcess(): void
     {
         $container = new ContainerBuilder();
-        $container->register('cqs.message.handle_middleware', HandlingMiddleware::class)
-            ->setPublic(true)
-            ->setArguments([
-                new AbstractArgument('cqs.message.handlers_locator'),
-                MessageHandlersCountPolicy::MULTIPLE_HANDLERS,
-            ]);
-
-        $container->register(MyMessageHandler::class)
-            ->addTag('cqs.message.handler', ['class' => MyMessage::class]);
-
-        MessageHandlerConfigurator::configure($container, AsMessageHandler::class, 'cqs.message.handler');
-
-        $container->addCompilerPass(new AttributeAutoconfigurationPass());
-        $container->addCompilerPass(new MessageHandlersLocatorPass('cqs.message.handler', 'cqs.message.handle_middleware'));
+        $this->configureContainer($container, allowMultiple: true);
         $container->compile();
 
-        $this->assertTrue($container->has('cqs.message.handle_middleware'));
+        $envelope = Envelope::wrap(new MyMessage());
+
+        /** @var Middleware $middleware */
+        $middleware = $container->get('handling_middleware');
+        $middleware->handle($envelope, new NoneMiddleware());
+
+        $this->assertIsArray($envelope->unwrap());
+        $this->assertCount(2, $envelope->unwrap());
+    }
+
+    public function testInvalidSingleMessageHandlingProcess(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Only one handler is allowed for message of type "OpenSolid\Tests\Bus\Fixtures\MyMessage".');
+
+        $container = new ContainerBuilder();
+        $this->configureContainer($container, allowMultiple: false);
+        $container->compile();
+    }
+
+    private function configureContainer(ContainerBuilder $container, bool $allowMultiple): void
+    {
+        $container->register('handling_middleware', HandlingMiddleware::class)
+            ->setPublic(true)
+            ->setArguments([
+                new AbstractArgument('message_handlers_locator'),
+                $allowMultiple ? MessageHandlersCountPolicy::MULTIPLE_HANDLERS : MessageHandlersCountPolicy::SINGLE_HANDLER,
+            ]);
+
+        $container->register('handler_1', MyMessageHandler::class)
+            ->addTag('message_handler', ['class' => MyMessage::class]);
+
+        $container->register('handler_2', MyMessageHandler::class)
+            ->addTag('message_handler', ['class' => MyMessage::class]);
+
+        MessageHandlerConfigurator::configure($container, AsMessageHandler::class, 'message_handler');
+
+        $container->addCompilerPass(new AttributeAutoconfigurationPass());
+        $container->addCompilerPass(new MessageHandlersLocatorPass('message_handler', 'handling_middleware', [], $allowMultiple));
     }
 }

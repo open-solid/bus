@@ -40,9 +40,9 @@ trait PriorityTaggedServiceTrait
      * @see https://bugs.php.net/53710
      * @see https://bugs.php.net/60926
      *
-     * @return Reference[]|Reference[][]
+     * @return array<array-key, array<Reference>>
      */
-    private function findAndSortTaggedServices(string|TaggedIteratorArgument $tagName, ContainerBuilder $container, array $exclude = [], bool $allowMultiple = false): array
+    private function findAndSortTaggedServices(string|TaggedIteratorArgument $tagName, ContainerBuilder $container, array $exclude = []): array
     {
         $indexAttribute = $defaultIndexMethod = $needsIndexes = $defaultPriorityMethod = null;
 
@@ -108,14 +108,8 @@ trait PriorityTaggedServiceTrait
                 $reference = new TypedReference($serviceId, $class, ContainerBuilder::EXCEPTION_ON_INVALID_REFERENCE, $index);
             }
 
-            if (null === $index) {
-                $refs[] = $reference;
-            } elseif ($allowMultiple) {
-                /* @psalm-suppress UndefinedMethod */
-                $refs[$index][] = $reference;
-            } else {
-                $refs[$index] = $reference;
-            }
+            /* @psalm-suppress UndefinedMethod */
+            $refs[$index][] = $reference;
         }
 
         return $refs;

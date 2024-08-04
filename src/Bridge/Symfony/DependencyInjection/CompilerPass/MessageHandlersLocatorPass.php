@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 final readonly class MessageHandlersLocatorPass implements CompilerPassInterface
 {
@@ -24,34 +25,34 @@ final readonly class MessageHandlersLocatorPass implements CompilerPassInterface
 
     public function __construct(
         private string $messageHandlerTagName,
-        private string $messageHandlerMiddlewareId,
+        private string $handlingMiddlewareId,
+        private array $exclude = [],
         private bool $allowMultiple = false,
+        private string $topic = 'message',
     ) {
     }
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has($this->messageHandlerMiddlewareId)) {
+        if (!$container->has($this->handlingMiddlewareId)) {
             return;
         }
 
         $handlers = $this->findAndSortTaggedServices(
-            new TaggedIteratorArgument($this->messageHandlerTagName, 'class'),
-            $container,
-            [],
-            $this->allowMultiple,
+            tagName: new TaggedIteratorArgument($this->messageHandlerTagName, 'class'),
+            container: $container,
+            exclude: $this->exclude,
         );
 
-        if ($this->allowMultiple) {
-            $refs = $handlers;
-        } else {
-            $refs = [];
-            foreach ($handlers as $class => $reference) {
-                $refs[$class][] = $reference;
+        if (!$this->allowMultiple) {
+            foreach ($handlers as $class => $refs) {
+                if (count($refs) > 1) {
+                    throw new LogicException(sprintf('Only one handler is allowed for %s of type "%s".', $this->topic, $class));
+                }
             }
         }
 
-        $middleware = $container->findDefinition($this->messageHandlerMiddlewareId);
-        $middleware->replaceArgument(0, new ServiceLocatorArgument($refs));
+        $middleware = $container->findDefinition($this->handlingMiddlewareId);
+        $middleware->replaceArgument(0, new ServiceLocatorArgument($handlers));
     }
 }
