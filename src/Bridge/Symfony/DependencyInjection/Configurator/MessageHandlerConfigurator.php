@@ -1,8 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of Option Type package.
+ *
+ * (c) Yonel Ceruto <open@yceruto.dev>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace OpenSolid\Bus\Bridge\Symfony\DependencyInjection\Configurator;
 
-use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -32,7 +42,7 @@ final readonly class MessageHandlerConfigurator
 
                 $type = $reflectionMethod->getParameters()[0]->getType();
 
-                if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
+                if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
                     return;
                 }
 

@@ -1,9 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of Option Type package.
+ *
+ * (c) Yonel Ceruto <open@yceruto.dev>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace OpenSolid\Bus\Middleware;
 
-use Generator;
-use Iterator;
 use OpenSolid\Bus\Envelope\Envelope;
 
 /**
@@ -21,8 +30,8 @@ final readonly class MiddlewareStack
 
     public function handle(Envelope $envelope): void
     {
-        /** @var Iterator<int, Middleware> $iterator */
-        $iterator = (fn (): Generator => yield from $this->middlewares)();
+        /** @var \Iterator<int, Middleware> $iterator */
+        $iterator = (fn (): \Generator => yield from $this->middlewares)();
 
         if (!$iterator->valid()) {
             return;
@@ -31,7 +40,7 @@ final readonly class MiddlewareStack
         $iterator->current()->handle($envelope, $this->next($iterator));
     }
 
-    private function next(Iterator $iterator): NextMiddleware
+    private function next(\Iterator $iterator): NextMiddleware
     {
         $iterator->next();
 

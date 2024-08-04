@@ -9,6 +9,16 @@
             "email": "open@yceruto.dev"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "OpenSolid\\Bus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenSolid\\Tests\\Bus\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=8.2",
         "psr/container": "^2.0",
@@ -20,20 +30,12 @@
         "phpunit/phpunit": "^10.0",
         "psalm/plugin-phpunit": "^0.18",
         "symfony/dependency-injection": "^7.0",
-        "doctrine/orm": "^3.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "OpenSolid\\Bus\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "OpenSolid\\Tests\\Bus\\": "tests/"
-        }
+        "doctrine/orm": "^3.1",
+        "friendsofphp/php-cs-fixer": "^3.54"
     },
     "scripts": {
         "test": "vendor/bin/phpunit tests",
-        "psalm": "vendor/bin/psalm --show-info=true"
+        "psalm": "vendor/bin/psalm --show-info=true",
+        "cs": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     }
 }

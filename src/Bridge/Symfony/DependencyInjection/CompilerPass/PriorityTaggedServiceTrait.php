@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Symfony package.
+ * This file is part of Option Type package.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * (c) Yonel Ceruto <open@yceruto.dev>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -109,7 +111,7 @@ trait PriorityTaggedServiceTrait
             if (null === $index) {
                 $refs[] = $reference;
             } elseif ($allowMultiple) {
-                /** @psalm-suppress UndefinedMethod */
+                /* @psalm-suppress UndefinedMethod */
                 $refs[$index][] = $reference;
             } else {
                 $refs[$index] = $reference;

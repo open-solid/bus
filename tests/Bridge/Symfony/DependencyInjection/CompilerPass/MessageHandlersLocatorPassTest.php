@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of Option Type package.
+ *
+ * (c) Yonel Ceruto <open@yceruto.dev>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace OpenSolid\Tests\Bus\Bridge\Symfony\DependencyInjection\CompilerPass;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
-use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
-use Symfony\Component\DependencyInjection\Compiler\AttributeAutoconfigurationPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\CompilerPass\MessageHandlersLocatorPass;
 use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\Configurator\MessageHandlerConfigurator;
 use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
@@ -14,6 +20,10 @@ use OpenSolid\Bus\Middleware\HandlingMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\AsMessageHandler;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
+use Symfony\Component\DependencyInjection\Compiler\AttributeAutoconfigurationPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MessageHandlersLocatorPassTest extends TestCase
 {
