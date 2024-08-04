@@ -20,6 +20,13 @@ use PHPUnit\Framework\TestCase;
 
 class EnvelopeTest extends TestCase
 {
+    public function testWrappingSelfEnvelop(): void
+    {
+        $message = Envelope::wrap(new MyMessage(), [new HandledStamp(true)]);
+
+        $this->assertSame($message, Envelope::wrap($message));
+    }
+
     public function testNullResult(): void
     {
         $envelope = Envelope::wrap(new MyMessage());

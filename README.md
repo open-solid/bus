@@ -2,7 +2,7 @@
 
 ## Installation
 
-First things first, you need to add the package to your project. Open your terminal and type in:
+To add the package to your project, open your terminal and type in:
 
 ```bash
 composer require open-solid/bus
@@ -31,7 +31,7 @@ $handler = function (MyMessage $message): mixed {
 // Setting up the bus with a middleware that knows who handles the message.
 $bus = new NativeMessageBus([
     new HandlingMiddleware(new MessageHandlersLocator([
-        MyMessage::class => [$handler], // Match messages to handlers.
+        MyMessage::class => [$handler], // Maps messages to handlers.
     ])),
 ]);
 

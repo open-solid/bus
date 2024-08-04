@@ -16,13 +16,20 @@ namespace OpenSolid\Bus\Envelope;
 use OpenSolid\Bus\Envelope\Stamp\HandledStamp;
 use OpenSolid\Bus\Envelope\Stamp\Stamps;
 
-final readonly class Envelope
+/**
+ * A message envelope that wraps a message and its stamps.
+ */
+final readonly class Envelope extends Message
 {
     public Message $message;
     public Stamps $stamps;
 
     public static function wrap(Message $message, array $stamps = []): self
     {
+        if ($message instanceof self) {
+            return $message;
+        }
+
         return new self($message, $stamps);
     }
 
