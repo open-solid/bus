@@ -32,6 +32,15 @@ class StampsTest extends TestCase
         $this->assertCount(2, $stamps);
     }
 
+    public function testHas(): void
+    {
+        $stamps = new Stamps([
+            new HandledStamp(true),
+        ]);
+
+        $this->assertTrue($stamps->has(HandledStamp::class));
+    }
+
     public function testFirst(): void
     {
         $stamps = new Stamps([
