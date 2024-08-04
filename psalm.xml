@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <psalm
+    findUnusedBaselineEntry="false"
     findUnusedPsalmSuppress="true"
     findUnusedVariablesAndParams="true"
+    findUnusedCode="false"
     strictBinaryOperands="true"
     errorLevel="7"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

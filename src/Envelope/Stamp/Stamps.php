@@ -2,7 +2,7 @@
 
 namespace OpenSolid\Bus\Envelope\Stamp;
 
-final class Stamps
+final class Stamps implements \Countable
 {
     /**
      * @param array<class-string, array<object>> $collection
@@ -12,7 +12,7 @@ final class Stamps
     /**
      * @param array<object> $stamps
      */
-    public function __construct(array $stamps)
+    public function __construct(array $stamps = [])
     {
         foreach ($stamps as $stamp) {
             $this->add($stamp);
@@ -27,7 +27,11 @@ final class Stamps
     }
 
     /**
-     * @param class-string $class
+     * @template T of object
+     *
+     * @param class-string<T> $class
+     *
+     * @return T|null
      */
     public function first(string $class): ?object
     {
@@ -35,11 +39,15 @@ final class Stamps
     }
 
     /**
-     * @param class-string $class
+     * @template T of object
+     *
+     * @param class-string<T> $class
+     *
+     * @return T|null
      */
     public function last(string $class): ?object
     {
-        if (!$stamps = $this->collection[$class] ?? []) {
+        if ([] === $stamps = $this->collection[$class] ?? []) {
             return null;
         }
 
@@ -47,15 +55,11 @@ final class Stamps
     }
 
     /**
-     * @param class-string $class
+     * @template T of object
      *
-     * @return array<object>
+     * @param class-string<T>   $class
+     * @param \Closure(T): bool $fn
      */
-    public function all(string $class): array
-    {
-        return $this->collection[$class] ?? [];
-    }
-
     public function filter(string $class, \Closure $fn): self
     {
         $self = clone $this;
@@ -65,11 +69,22 @@ final class Stamps
     }
 
     /**
-     * @param class-string            $class
-     * @param \Closure(object): mixed $fn
+     * @template T of object
+     *
+     * @param class-string<T>    $class
+     * @param \Closure(T): mixed $fn
      */
     public function map(string $class, \Closure $fn): array
     {
         return \array_map($fn, $this->collection[$class] ?? []);
+    }
+
+    public function count(): int
+    {
+        return \array_reduce(
+            $this->collection,
+            static fn (int $carry, array $stamps): int => $carry + \count($stamps),
+            0,
+        );
     }
 }
