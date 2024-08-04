@@ -2,6 +2,8 @@
 
 namespace OpenSolid\Tests\Bus\Fixtures;
 
-class MyMessage
+use OpenSolid\Bus\Envelope\Message;
+
+readonly class MyMessage extends Message
 {
 }

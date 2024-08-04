@@ -2,6 +2,7 @@
 
 namespace OpenSolid\Bus;
 
+use OpenSolid\Bus\Envelope\Message;
 use Symfony\Contracts\Service\ResetInterface;
 
 final class NativeLazyMessageBus implements LazyMessageMessageBus, ResetInterface
@@ -13,7 +14,7 @@ final class NativeLazyMessageBus implements LazyMessageMessageBus, ResetInterfac
     ) {
     }
 
-    public function dispatch(object $message): null
+    public function dispatch(Message $message): null
     {
         $this->messages[] = $message;
 

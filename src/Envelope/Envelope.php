@@ -7,10 +7,10 @@ use OpenSolid\Bus\Envelope\Stamp\Stamps;
 
 final readonly class Envelope
 {
-    public object $message;
+    public Message $message;
     public Stamps $stamps;
 
-    public static function wrap(object $message, array $stamps = []): self
+    public static function wrap(Message $message, array $stamps = []): self
     {
         return new self($message, $stamps);
     }
@@ -28,7 +28,7 @@ final readonly class Envelope
         };
     }
 
-    private function __construct(object $message, array $stamps)
+    private function __construct(Message $message, array $stamps)
     {
         $this->message = $message;
         $this->stamps = new Stamps($stamps);

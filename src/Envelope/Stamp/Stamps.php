@@ -5,12 +5,12 @@ namespace OpenSolid\Bus\Envelope\Stamp;
 final class Stamps implements \Countable
 {
     /**
-     * @param array<class-string, array<object>> $collection
+     * @param array<class-string, array<Stamp>> $collection
      */
     private array $collection = [];
 
     /**
-     * @param array<object> $stamps
+     * @param array<Stamp> $stamps
      */
     public function __construct(array $stamps = [])
     {
@@ -19,7 +19,7 @@ final class Stamps implements \Countable
         }
     }
 
-    public function add(object $stamp): self
+    public function add(Stamp $stamp): self
     {
         $this->collection[$stamp::class][] = $stamp;
 
@@ -27,25 +27,25 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of object
+     * @template T of Stamp
      *
      * @param class-string<T> $class
      *
      * @return T|null
      */
-    public function first(string $class): ?object
+    public function first(string $class): ?Stamp
     {
         return $this->collection[$class][0] ?? null;
     }
 
     /**
-     * @template T of object
+     * @template T of Stamp
      *
      * @param class-string<T> $class
      *
      * @return T|null
      */
-    public function last(string $class): ?object
+    public function last(string $class): ?Stamp
     {
         if ([] === $stamps = $this->collection[$class] ?? []) {
             return null;
@@ -55,7 +55,7 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of object
+     * @template T of Stamp
      *
      * @param class-string<T>   $class
      * @param \Closure(T): bool $fn
@@ -69,7 +69,7 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template T of object
+     * @template T of Stamp
      *
      * @param class-string<T>    $class
      * @param \Closure(T): mixed $fn
