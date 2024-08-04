@@ -21,7 +21,7 @@ Here's a snippet on how to set it up and dispatch a message:
 use App\Message\MyMessage;
 use OpenSolid\Bus\Handler\MessageHandlersLocator;
 use OpenSolid\Bus\Middleware\HandlingMiddleware;
-use OpenSolid\Bus\NativeBus;
+use OpenSolid\Bus\NativeMessageBus;
 
 // This is your custom function that does something when a message arrives.
 $handler = function (MyMessage $message): mixed {
@@ -29,7 +29,7 @@ $handler = function (MyMessage $message): mixed {
 };
 
 // Setting up the bus with a middleware that knows who handles the message.
-$bus = new NativeBus([
+$bus = new NativeMessageBus([
     new HandlingMiddleware(new MessageHandlersLocator([
         MyMessage::class => [$handler], // Match messages to handlers.
     ])),
@@ -63,9 +63,9 @@ Middleware are helpers that do stuff before and after your message is handled. T
 Here’s how to create one:
 
 ```php
+use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\NextMiddleware;
-use OpenSolid\Bus\Model\Envelope;
 
 class MyMiddleware implements Middleware
 {
@@ -73,7 +73,7 @@ class MyMiddleware implements Middleware
     {
         // Do something before the message handler works.
 
-        $next->handle($envelope); // Pass the message along.
+        $next->handle($envelope); // Pass the message to the next middleware
 
         // Do something after the message handler is done.
     }
