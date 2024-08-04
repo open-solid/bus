@@ -1,7 +1,7 @@
 <?php
 
 $header = <<<EOF
-This file is part of Option Type package.
+This file is part of OpenSolid package.
 
 (c) Yonel Ceruto <open@yceruto.dev>
 

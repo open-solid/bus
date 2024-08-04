@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Option Type package.
+ * This file is part of OpenSolid package.
  *
  * (c) Yonel Ceruto <open@yceruto.dev>
  *
@@ -51,5 +51,9 @@ final readonly class MessageHandlerConfigurator
                 }
             },
         );
+    }
+
+    private function __construct()
+    {
     }
 }
