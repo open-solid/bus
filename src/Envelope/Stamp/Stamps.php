@@ -13,11 +13,6 @@ declare(strict_types=1);
 
 namespace OpenSolid\Bus\Envelope\Stamp;
 
-use Std\Type\None;
-use Std\Type\Option;
-use Std\Type\OptionFactory;
-use Std\Type\Some;
-
 /**
  * A collection of stamps.
  *
@@ -58,25 +53,25 @@ final class Stamps implements \Countable
     /**
      * @param class-string<T> $class
      *
-     * @return None|Some<T>
+     * @return T|null
      */
-    public function first(string $class): None|Some
+    public function first(string $class): ?Stamp
     {
-        return OptionFactory::from($this->collection[$class][0] ?? null);
+        return $this->collection[$class][0] ?? null;
     }
 
     /**
      * @param class-string<T> $class
      *
-     * @return None|Some<T>
+     * @return T|null
      */
-    public function last(string $class): None|Some
+    public function last(string $class): ?Stamp
     {
         if ([] === $stamps = $this->collection[$class] ?? []) {
-            return new None();
+            return null;
         }
 
-        return new Some($this->collection[$class][\count($stamps) - 1]);
+        return $this->collection[$class][\count($stamps) - 1];
     }
 
     /**

@@ -52,6 +52,6 @@ class MiddlewareStackTest extends TestCase
 
         $result = $envelope->unwrap();
 
-        $this->assertSame(['1', '2', '3'], $result->unwrap());
+        $this->assertSame(['1', '2', '3'], $result);
     }
 }

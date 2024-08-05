@@ -37,7 +37,7 @@ class HandlingMiddlewareTest extends TestCase
 
         $result = $envelop->unwrap();
 
-        $this->assertSame($message, $result->unwrap());
+        $this->assertSame($message, $result);
     }
 
     public function testNoHandlerForMessage(): void
@@ -60,6 +60,7 @@ class HandlingMiddlewareTest extends TestCase
                 static fn (MyMessage $message) => $message,
             ],
         ]), MessageHandlersCountPolicy::SINGLE_HANDLER);
+
         $middleware->handle(Envelope::wrap(new MyMessage()), new NoneMiddleware());
     }
 }

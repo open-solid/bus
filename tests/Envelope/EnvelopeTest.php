@@ -33,7 +33,7 @@ class EnvelopeTest extends TestCase
 
         $result = $envelope->unwrap();
 
-        $this->assertTrue($result->isNone());
+        $this->assertNull($result);
     }
 
     public function testSingleResult(): void
@@ -43,7 +43,7 @@ class EnvelopeTest extends TestCase
 
         $result = $envelope->unwrap();
 
-        $this->assertTrue($result->isSome());
+        $this->assertTrue($result);
     }
 
     public function testMultipleResults(): void
@@ -54,6 +54,6 @@ class EnvelopeTest extends TestCase
 
         $result = $envelope->unwrap();
 
-        $this->assertSame([true, false], $result->unwrap());
+        $this->assertSame([true, false], $result);
     }
 }

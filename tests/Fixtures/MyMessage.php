@@ -17,4 +17,8 @@ use OpenSolid\Bus\Envelope\Message;
 
 readonly class MyMessage extends Message
 {
+    public function __construct(
+        public bool $prop = false,
+    ) {
+    }
 }

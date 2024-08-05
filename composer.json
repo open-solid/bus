@@ -23,8 +23,7 @@
         "php": ">=8.2",
         "psr/container": "^2.0",
         "psr/log": "^3.0",
-        "symfony/service-contracts": "^3.4",
-        "yceruto/option-type": "^1.0"
+        "symfony/service-contracts": "^3.4"
     },
     "require-dev": {
         "vimeo/psalm": "^5.0",
