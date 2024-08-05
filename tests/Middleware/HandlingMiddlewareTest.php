@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 
 class HandlingMiddlewareTest extends TestCase
 {
-    public function testHandle(): void
+    public function testHandleMessage(): void
     {
         $message = new MyMessage();
         $middleware = new HandlingMiddleware(new MessageHandlersLocator([
@@ -40,7 +40,7 @@ class HandlingMiddlewareTest extends TestCase
         $this->assertSame($message, $result->unwrap());
     }
 
-    public function testNoHandlerForObject(): void
+    public function testNoHandlerForMessage(): void
     {
         $this->expectException(NoHandlerForMessage::class);
         $this->expectExceptionMessage('No handler for message of type "OpenSolid\Tests\Bus\Fixtures\MyMessage".');
@@ -49,7 +49,7 @@ class HandlingMiddlewareTest extends TestCase
         $middleware->handle(Envelope::wrap(new MyMessage()), new NoneMiddleware());
     }
 
-    public function testSingleHandlerForObject(): void
+    public function testSingleHandlerForMessage(): void
     {
         $this->expectException(MultipleHandlersForMessage::class);
         $this->expectExceptionMessage('Message of type "OpenSolid\Tests\Bus\Fixtures\MyMessage" was handled multiple times. Only one handler is expected.');
