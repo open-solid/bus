@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace OpenSolid\Bus;
 
 use OpenSolid\Bus\Envelope\Message;
+use Std\Type\None;
 
 /**
  * A bus responsible for dispatching messages lazily to their handlers.
@@ -21,5 +22,5 @@ use OpenSolid\Bus\Envelope\Message;
  */
 interface LazyMessageBus extends MessageBus, FlushableMessageBus
 {
-    public function dispatch(Message $message): null;
+    public function dispatch(Message $message): None;
 }

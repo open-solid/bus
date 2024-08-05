@@ -35,7 +35,9 @@ class HandlingMiddlewareTest extends TestCase
         $envelop = Envelope::wrap($message);
         $middleware->handle($envelop, new NoneMiddleware());
 
-        $this->assertSame($message, $envelop->unwrap());
+        $result = $envelop->unwrap();
+
+        $this->assertSame($message, $result->unwrap());
     }
 
     public function testNoHandlerForObject(): void

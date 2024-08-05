@@ -50,8 +50,8 @@ class StampsTest extends TestCase
 
         $first = $stamps->first(HandledStamp::class);
 
-        $this->assertNotNull($first);
-        $this->assertTrue($first->result);
+        $this->assertNotNull($first->unwrap());
+        $this->assertTrue($first->unwrap()->result);
     }
 
     public function testLast(): void
@@ -63,8 +63,8 @@ class StampsTest extends TestCase
 
         $last = $stamps->last(HandledStamp::class);
 
-        $this->assertNotNull($last);
-        $this->assertFalse($last->result);
+        $this->assertNotNull($last->unwrap());
+        $this->assertFalse($last->unwrap()->result);
     }
 
     public function testFilter(): void

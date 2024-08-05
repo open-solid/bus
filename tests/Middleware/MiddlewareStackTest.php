@@ -50,6 +50,8 @@ class MiddlewareStackTest extends TestCase
         $envelope = Envelope::wrap(new MyMessage());
         $stack->handle($envelope);
 
-        $this->assertSame(['1', '2', '3'], $envelope->unwrap());
+        $result = $envelope->unwrap();
+
+        $this->assertSame(['1', '2', '3'], $result->unwrap());
     }
 }

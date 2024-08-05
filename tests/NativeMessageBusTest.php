@@ -31,6 +31,9 @@ class NativeMessageBusTest extends TestCase
         ]);
         $message = new MyMessage();
 
-        $this->assertSame($message, $bus->dispatch($message));
+        $result = $bus->dispatch($message);
+
+        $this->assertTrue($result->isSome());
+        $this->assertSame($message, $result->unwrap());
     }
 }

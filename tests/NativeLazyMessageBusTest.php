@@ -28,7 +28,9 @@ class NativeLazyMessageBusTest extends TestCase
 
         $bus = new NativeLazyMessageBus(new NativeMessageBus([$middleware]));
 
-        $this->assertNull($bus->dispatch(new MyMessage()));
+        $result = $bus->dispatch(new MyMessage());
+
+        $this->assertTrue($result->isNone());
     }
 
     public function testLazyDispatchingHandleWhenFlush(): void

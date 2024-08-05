@@ -15,6 +15,9 @@ namespace OpenSolid\Bus\Envelope;
 
 use OpenSolid\Bus\Envelope\Stamp\HandledStamp;
 use OpenSolid\Bus\Envelope\Stamp\Stamps;
+use Std\Type\None;
+use Std\Type\Option;
+use Std\Type\Some;
 
 /**
  * A message envelope that wraps a message and its stamps.
@@ -33,16 +36,17 @@ final readonly class Envelope extends Message
         return new self($message, $stamps);
     }
 
-    public function unwrap(): mixed
+    public function unwrap(): Option
     {
         $results = $this->stamps
             ->filter(HandledStamp::class, fn (HandledStamp $stamp): bool => null !== $stamp->result)
-            ->map(HandledStamp::class, fn (HandledStamp $stamp): mixed => $stamp->result);
+            ->map(HandledStamp::class, fn (HandledStamp $stamp): mixed => $stamp->result)
+        ;
 
         return match (\count($results)) {
-            0 => null,
-            1 => $results[0],
-            default => $results,
+            0 => new None(),
+            1 => new Some($results[0]),
+            default => new Some($results),
         };
     }
 

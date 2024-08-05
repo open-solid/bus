@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace OpenSolid\Bus;
 
 use OpenSolid\Bus\Envelope\Message;
+use Std\Type\None;
 use Symfony\Contracts\Service\ResetInterface;
 
 final class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
@@ -25,11 +26,11 @@ final class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
     ) {
     }
 
-    public function dispatch(Message $message): null
+    public function dispatch(Message $message): None
     {
         $this->messages[] = $message;
 
-        return null;
+        return new None();
     }
 
     public function flush(): void

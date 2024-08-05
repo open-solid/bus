@@ -17,6 +17,7 @@ use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Envelope\Message;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\MiddlewareStack;
+use Std\Type\Option;
 
 final readonly class NativeMessageBus implements MessageBus
 {
@@ -30,7 +31,7 @@ final readonly class NativeMessageBus implements MessageBus
         $this->middlewares = new MiddlewareStack($middlewares);
     }
 
-    public function dispatch(Message $message): mixed
+    public function dispatch(Message $message): Option
     {
         $envelope = Envelope::wrap($message);
 

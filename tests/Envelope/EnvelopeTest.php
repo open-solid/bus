@@ -31,25 +31,29 @@ class EnvelopeTest extends TestCase
     {
         $envelope = Envelope::wrap(new MyMessage());
 
-        $this->assertNull($envelope->unwrap());
+        $result = $envelope->unwrap();
+
+        $this->assertTrue($result->isNone());
     }
 
     public function testSingleResult(): void
     {
         $envelope = Envelope::wrap(new MyMessage());
-
         $envelope->stamps->add(new HandledStamp(true));
 
-        $this->assertTrue($envelope->unwrap());
+        $result = $envelope->unwrap();
+
+        $this->assertTrue($result->isSome());
     }
 
     public function testMultipleResults(): void
     {
         $envelope = Envelope::wrap(new MyMessage());
-
         $envelope->stamps->add(new HandledStamp(true));
         $envelope->stamps->add(new HandledStamp(false));
 
-        $this->assertSame([true, false], $envelope->unwrap());
+        $result = $envelope->unwrap();
+
+        $this->assertSame([true, false], $result->unwrap());
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace OpenSolid\Bus;
 
 use OpenSolid\Bus\Envelope\Message;
+use Std\Type\Option;
 
 /**
  * A bus responsible for dispatching messages to their handlers
@@ -21,5 +22,5 @@ use OpenSolid\Bus\Envelope\Message;
  */
 interface MessageBus
 {
-    public function dispatch(Message $message): mixed;
+    public function dispatch(Message $message): Option;
 }

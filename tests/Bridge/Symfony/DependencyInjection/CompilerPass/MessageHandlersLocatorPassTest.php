@@ -43,8 +43,8 @@ class MessageHandlersLocatorPassTest extends TestCase
         $middleware = $container->get('handling_middleware');
         $middleware->handle($envelope, new NoneMiddleware());
 
-        $this->assertIsArray($envelope->unwrap());
-        $this->assertCount(2, $envelope->unwrap());
+        $this->assertTrue($envelope->unwrap()->isSome());
+        $this->assertCount(2, $envelope->unwrap()->unwrap());
     }
 
     public function testInvalidSingleMessageHandlingProcess(): void
