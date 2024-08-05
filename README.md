@@ -1,8 +1,11 @@
-# Simple Bus Component
+# Message Bus Component
+
+A message bus component is essential in modern applications for managing communication between 
+different parts of the system. It acts as a central hub that routes messages between services, 
+ensuring decoupled and scalable architecture. This allows individual components to interact without 
+needing to know the specifics of each other, simplifying development and maintenance.
 
 ## Installation
-
-To add the package to your project, open your terminal and type in:
 
 ```bash
 composer require open-solid/bus
