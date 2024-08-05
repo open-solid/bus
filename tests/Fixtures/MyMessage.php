@@ -15,10 +15,9 @@ namespace OpenSolid\Tests\Bus\Fixtures;
 
 use OpenSolid\Bus\Envelope\Message;
 
+/**
+ * @extends Message<self>
+ */
 readonly class MyMessage extends Message
 {
-    public function __construct(
-        public bool $prop = false,
-    ) {
-    }
 }

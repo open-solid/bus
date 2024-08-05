@@ -21,5 +21,12 @@ use OpenSolid\Bus\Envelope\Message;
  */
 interface MessageBus
 {
+    /**
+     * @template T
+     *
+     * @param Message<T> $message
+     *
+     * @return T
+     */
     public function dispatch(Message $message): mixed;
 }

@@ -15,6 +15,8 @@ namespace OpenSolid\Bus\Envelope;
 
 /**
  * A data structure that represents a message to be dispatched by a bus to its handlers.
+ *
+ * @template T
  */
 abstract readonly class Message
 {

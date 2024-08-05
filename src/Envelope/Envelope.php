@@ -18,6 +18,8 @@ use OpenSolid\Bus\Envelope\Stamp\Stamps;
 
 /**
  * A message envelope that wraps a message and its stamps.
+ *
+ * @extends Message<self>
  */
 final readonly class Envelope extends Message
 {
