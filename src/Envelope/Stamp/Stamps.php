@@ -70,7 +70,7 @@ final class Stamps implements \Countable
      *
      * @return None|Some<T>
      */
-    public function last(string $class): Option
+    public function last(string $class): None|Some
     {
         if ([] === $stamps = $this->collection[$class] ?? []) {
             return new None();
