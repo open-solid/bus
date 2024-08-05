@@ -16,6 +16,9 @@ namespace OpenSolid\Bus;
 use OpenSolid\Bus\Envelope\Message;
 use Symfony\Contracts\Service\ResetInterface;
 
+/**
+ * The messages are stored in an internal queue and dispatched when the bus is flushed.
+ */
 final class NativeLazyMessageBus implements LazyMessageBus, ResetInterface
 {
     private array $messages = [];
