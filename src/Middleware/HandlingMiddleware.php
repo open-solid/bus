@@ -63,7 +63,7 @@ final readonly class HandlingMiddleware implements Middleware
 
             $envelope->stamps->add(new HandledStamp($result));
 
-            $this->logger->debug($this->topic.' of type {message} was handled by {handler}', [
+            $this->logger->info($this->topic.' of type {message} was handled by {handler}', [
                 'message' => $envelope->message::class,
                 'handler' => get_debug_type($handler),
             ]);
