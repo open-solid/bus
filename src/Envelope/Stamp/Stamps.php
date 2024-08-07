@@ -75,24 +75,29 @@ final class Stamps implements \Countable
     }
 
     /**
-     * @template U of Stamp
+     * @template F of Stamp
      *
-     * @param class-string<U>   $class
-     * @param \Closure(U): bool $fn
+     * @param class-string<F>   $class
+     * @param \Closure(F): bool $fn
+     *
+     * @return self<F>
      */
     public function filter(string $class, \Closure $fn): self
     {
         $self = clone $this;
         $self->collection[$class] = \array_filter($self->collection[$class] ?? [], $fn);
 
+        /** @var self<F> $self */
         return $self;
     }
 
     /**
-     * @template U of Stamp
+     * @template R
      *
-     * @param class-string<U>    $class
-     * @param \Closure(U): mixed $fn
+     * @param class-string<T> $class
+     * @param \Closure(T): R  $fn
+     *
+     * @return array<R>
      */
     public function map(string $class, \Closure $fn): array
     {
