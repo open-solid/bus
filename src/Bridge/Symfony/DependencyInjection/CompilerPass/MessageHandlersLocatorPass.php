@@ -47,7 +47,7 @@ final readonly class MessageHandlersLocatorPass implements CompilerPassInterface
         if (!$this->allowMultiple) {
             foreach ($handlers as $class => $refs) {
                 if (count($refs) > 1) {
-                    throw new LogicException(sprintf('Only one handler is allowed for %s of type "%s".', $this->topic, $class));
+                    throw new LogicException(sprintf('Only one handler is allowed for %s of type "%s". However, %d were found: %s', $this->topic, $class, count($refs), implode(', ', $refs)));
                 }
             }
         }

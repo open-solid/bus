@@ -52,7 +52,7 @@ class MessageHandlersLocatorPassTest extends TestCase
     public function testInvalidSingleMessageHandlingProcess(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Only one handler is allowed for message of type "OpenSolid\Tests\Bus\Fixtures\MyMessage".');
+        $this->expectExceptionMessage('Only one handler is allowed for message of type "OpenSolid\Tests\Bus\Fixtures\MyMessage". However, 2 were found: handler_1, handler_2');
 
         $container = new ContainerBuilder();
         $this->configureContainer($container, allowMultiple: false);
