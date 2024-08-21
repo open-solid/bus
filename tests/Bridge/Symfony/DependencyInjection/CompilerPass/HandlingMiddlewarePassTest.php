@@ -13,14 +13,15 @@ declare(strict_types=1);
 
 namespace OpenSolid\Tests\Bus\Bridge\Symfony\DependencyInjection\CompilerPass;
 
-use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\CompilerPass\MessageHandlersLocatorPass;
+use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\CompilerPass\HandlingMiddlewarePass;
 use OpenSolid\Bus\Bridge\Symfony\DependencyInjection\Configurator\MessageHandlerConfigurator;
 use OpenSolid\Bus\Envelope\Envelope;
-use OpenSolid\Bus\Handler\MessageHandlersCountPolicy;
+use OpenSolid\Bus\Handler\HandlersCountPolicy;
 use OpenSolid\Bus\Middleware\HandlingMiddleware;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\NoneMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\AsMessageHandler;
+use OpenSolid\Tests\Bus\Fixtures\DummyDecorator;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,7 @@ use Symfony\Component\DependencyInjection\Compiler\AttributeAutoconfigurationPas
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 
-class MessageHandlersLocatorPassTest extends TestCase
+class HandlingMiddlewarePassTest extends TestCase
 {
     public function testMultipleMessageHandlingProcess(): void
     {
@@ -44,9 +45,13 @@ class MessageHandlersLocatorPassTest extends TestCase
         $middleware->handle($envelope, new NoneMiddleware());
 
         $result = $envelope->unwrap();
-
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
+
+        /** @var DummyDecorator $decorator */
+        $decorator = $container->get(DummyDecorator::class);
+        $this->assertSame(2, $decorator->count);
+        $this->assertSame(['option1' => 'value1'], $decorator->options);
     }
 
     public function testInvalidSingleMessageHandlingProcess(): void
@@ -65,7 +70,7 @@ class MessageHandlersLocatorPassTest extends TestCase
             ->setPublic(true)
             ->setArguments([
                 new AbstractArgument('message_handlers_locator'),
-                $allowMultiple ? MessageHandlersCountPolicy::MULTIPLE_HANDLERS : MessageHandlersCountPolicy::SINGLE_HANDLER,
+                $allowMultiple ? HandlersCountPolicy::MULTIPLE_HANDLERS : HandlersCountPolicy::SINGLE_HANDLER,
             ]);
 
         $container->register('handler_1', MyMessageHandler::class)
@@ -74,9 +79,12 @@ class MessageHandlersLocatorPassTest extends TestCase
         $container->register('handler_2', MyMessageHandler::class)
             ->addTag('message_handler', ['class' => MyMessage::class]);
 
+        $container->register(DummyDecorator::class)
+            ->setPublic(true);
+
         MessageHandlerConfigurator::configure($container, AsMessageHandler::class, 'message_handler');
 
         $container->addCompilerPass(new AttributeAutoconfigurationPass());
-        $container->addCompilerPass(new MessageHandlersLocatorPass('message_handler', 'handling_middleware', [], $allowMultiple));
+        $container->addCompilerPass(new HandlingMiddlewarePass('message_handler', 'handling_middleware', [], $allowMultiple));
     }
 }

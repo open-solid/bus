@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace OpenSolid\Bus\Handler;
 
-enum MessageHandlersCountPolicy
+enum HandlersCountPolicy
 {
     case NO_HANDLER;
     case SINGLE_HANDLER;

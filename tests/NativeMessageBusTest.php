@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace OpenSolid\Tests\Bus;
 
-use OpenSolid\Bus\Handler\MessageHandlersLocator;
+use OpenSolid\Bus\Handler\HandlersLocator;
 use OpenSolid\Bus\Middleware\HandlingMiddleware;
 use OpenSolid\Bus\NativeMessageBus;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
@@ -21,14 +21,17 @@ use PHPUnit\Framework\TestCase;
 
 class NativeMessageBusTest extends TestCase
 {
-    public function testDispatch(): void
+    public function testDispatchAndHandling(): void
     {
-        $handler = static fn (MyMessage $message): MyMessage => $message;
-        $bus = new NativeMessageBus([
-            new HandlingMiddleware(new MessageHandlersLocator([
-                MyMessage::class => [$handler],
-            ])),
-        ]);
+        $handlers = [
+            MyMessage::class => [
+                static fn (MyMessage $message): MyMessage => $message,
+            ],
+        ];
+        $middlewares = [
+            new HandlingMiddleware(new HandlersLocator($handlers)),
+        ];
+        $bus = new NativeMessageBus($middlewares);
         $message = new MyMessage();
 
         $result = $bus->dispatch($message);

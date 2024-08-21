@@ -15,8 +15,9 @@ composer require open-solid/bus
 
 ### Dispatching Message with the Bus
 
-Think of the "bus" as a mail delivery system for your messages. It follows a specific path, decided 
-by some rules (middleware), to send your message and handle it.
+Think of the "bus" as a mail delivery system for your messages. It follows a 
+specific path, decided by some rules (middleware), to send your message and 
+handle it.
 
 Here's a snippet on how to set it up and dispatch a message:
 
@@ -44,8 +45,8 @@ $bus->dispatch(new MyMessage());
 
 ### Handling Messages
 
-A "message handler" is what does the work when a message arrives. It can be a simple function or a method in a class. 
-Here's how you set one up:
+A "message handler" is what does the work when a message arrives. It can be a simple 
+function or a method in a class. Here's how you set one up:
 
 ```php
 use App\Message\MyMessage;
@@ -61,9 +62,11 @@ class MyMessageHandler
 
 ### Middleware
 
-Middleware are helpers that do stuff before and after your message is handled. They can change the message or do other tasks.
+Middleware are helpers that perform tasks before and after your message is handled. They 
+operate at the bus level, meaning they handle all messages dispatched through the message 
+bus they are linked to.
 
-Here’s how to create one:
+Here's how to create one:
 
 ```php
 use OpenSolid\Bus\Envelope\Envelope;
@@ -76,9 +79,88 @@ class MyMiddleware implements Middleware
     {
         // Do something before the message handler works.
 
-        $next->handle($envelope); // Pass the message to the next middleware
+        $next->handle($envelope); // Call the next middleware
 
         // Do something after the message handler is done.
+    }
+}
+```
+
+### Decorators
+
+Decorators are helpers that perform tasks before and after your message is handled. Unlike
+Middleware, decorators operate at the handler level, allowing you to modify or enhance the 
+handler behavior without changing their actual code.
+
+Essentially, a decorator is a callable that takes another callable as an argument and extends 
+or alters its behavior. Let's see an example:
+
+```php
+use OpenSolid\Bus\Decorator\Decorator;
+
+class StopwatchDecorator implements Decorator
+{
+    public function decorate(\Closure $func): \Closure
+    {
+        return function (mixed ...$args) use ($func): mixed {
+            // do something before
+
+            $result = $func(...$args);
+
+            // do something after
+
+            return $result;
+        };
+    }
+} 
+```
+
+Then, use it wherever you want to decorate a message handler operation with 
+the `#[Decorate]` attribute, which configures the decorator that will wrap 
+the current `MyMessageHandler::__invoke()` method.
+
+```php
+use App\Decorator\StopwatchDecorator;
+use OpenSolid\Bus\Decorator\Decorate;
+
+class MyMessageHandler
+{
+    #[Decorate(StopwatchDecorator::class)]
+    public function __invoke(MyMessage $message): void
+    {
+        // ...
+    }
+}
+```
+
+If it's a frequently used decorator, you can create a pre-defined class 
+to avoid configuring the same decorator repeatedly:
+
+```php
+use App\Decorator\StopwatchDecorator;
+use OpenSolid\Bus\Decorator\Decorate;
+
+#[\Attribute(\Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
+readonly class Stopwatch extends Decorate
+{
+    public function __construct()
+    {
+        parent::__construct(StopwatchDecorator::class);
+    }
+}
+```
+
+Then, you can simply reference your `Stopwatch` attribute decorator as follows:
+
+```php
+use App\Decorator\Stopwatch;
+
+class MyMessageHandler
+{
+    #[Stopwatch]
+    public function __invoke(MyMessage $message): void
+    {
+        // ...
     }
 }
 ```
