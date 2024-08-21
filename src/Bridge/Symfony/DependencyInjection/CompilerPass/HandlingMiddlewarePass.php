@@ -55,7 +55,7 @@ final readonly class HandlingMiddlewarePass implements CompilerPassInterface
 
             foreach ($refs as $ref) {
                 /** @var class-string $handlerClass */
-                $handlerClass = $container->getDefinition((string) $ref)->getClass();
+                $handlerClass = $container->findDefinition((string) $ref)->getClass();
 
                 if (null === $refHandlerClass = $container->getReflectionClass($handlerClass)) {
                     throw new LogicException('Missing reflection class.');
@@ -66,7 +66,7 @@ final readonly class HandlingMiddlewarePass implements CompilerPassInterface
 
                 foreach ($attributes as $attribute) {
                     $instance = $attribute->newInstance();
-                    $decorator = $container->getDefinition($instance->id);
+                    $decorator = $container->findDefinition($instance->id);
                     /** @var class-string $decoratorClass */
                     $decoratorClass = $decorator->getClass();
 
