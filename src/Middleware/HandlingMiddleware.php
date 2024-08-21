@@ -62,8 +62,8 @@ final readonly class HandlingMiddleware implements Middleware
         }
 
         foreach ($handlers as $handler) {
-            if ($decorators = $this->decorators->get($handler::class)) {
-                $handler = $this->decorate($handler(...), $decorators);
+            if ($this->decorators->has($handler::class)) {
+                $handler = $this->decorate($handler(...), $this->decorators->get($handler::class));
             }
 
             $result = $handler($envelope->message);
