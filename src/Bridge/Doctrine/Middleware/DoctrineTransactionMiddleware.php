@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace OpenSolid\Bus\Bridge\Doctrine\Middleware;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\NextMiddleware;
@@ -21,12 +22,19 @@ use OpenSolid\Bus\Middleware\NextMiddleware;
 final readonly class DoctrineTransactionMiddleware implements Middleware
 {
     public function __construct(
-        private EntityManagerInterface $em,
+        private ManagerRegistry $registry,
+        private ?string $entityManagerName = null,
     ) {
     }
 
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
-        $this->em->wrapInTransaction(fn () => $next->handle($envelope));
+        $manager = $this->registry->getManager($this->entityManagerName);
+
+        if (!$manager instanceof EntityManagerInterface) {
+            throw new \LogicException('Doctrine ORM entity managers are only supported');
+        }
+
+        $manager->wrapInTransaction(fn () => $next->handle($envelope));
     }
 }

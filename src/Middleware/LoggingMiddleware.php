@@ -26,7 +26,7 @@ final readonly class LoggingMiddleware implements Middleware
 
     public function handle(Envelope $envelope, NextMiddleware $next): void
     {
-        $this->logger->info(sprintf('Received %s of type {class}', $this->topic), [
+        $this->logger->info(\sprintf('Received %s of type {class}', $this->topic), [
             'class' => $envelope->message::class,
         ]);
 

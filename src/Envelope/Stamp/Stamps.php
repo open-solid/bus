@@ -85,7 +85,7 @@ final class Stamps implements \Countable
     public function filter(string $class, \Closure $fn): self
     {
         $self = clone $this;
-        $self->collection[$class] = \array_filter($self->collection[$class] ?? [], $fn);
+        $self->collection[$class] = array_filter($self->collection[$class] ?? [], $fn);
 
         /** @var self<F> $self */
         return $self;
@@ -101,12 +101,12 @@ final class Stamps implements \Countable
      */
     public function map(string $class, \Closure $fn): array
     {
-        return \array_map($fn, $this->collection[$class] ?? []);
+        return array_map($fn, $this->collection[$class] ?? []);
     }
 
     public function count(): int
     {
-        return \array_reduce(
+        return array_reduce(
             $this->collection,
             static fn (int $carry, array $stamps): int => $carry + \count($stamps),
             0,

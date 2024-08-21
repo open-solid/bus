@@ -19,7 +19,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Maps a message class to a list of handlers.
  */
-final readonly class MessageHandlersLocator implements ContainerInterface
+final readonly class HandlersLocator implements ContainerInterface
 {
     /**
      * @param array<class-string, iterable<callable>> $handlers

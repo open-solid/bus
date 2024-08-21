@@ -19,6 +19,7 @@ return (new PhpCsFixer\Config())
         '@Symfony' => true,
         'header_comment' => ['header' => $header],
         'declare_strict_types' => true,
+        'native_function_invocation' => true,
     ])
     ->setFinder($finder)
 ;
