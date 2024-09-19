@@ -13,12 +13,10 @@ declare(strict_types=1);
 
 namespace OpenSolid\Tests\Bus\Fixtures;
 
-use OpenSolid\Bus\Decorator\Decorate;
-
 #[AsMessageHandler]
 class MyMessageHandler
 {
-    #[Decorate(DummyDecorator::class, ['option1' => 'value1'])]
+    #[CastToArray]
     public function __invoke(MyMessage $message): MyMessage
     {
         return $message;

@@ -21,7 +21,6 @@ use OpenSolid\Bus\Middleware\HandlingMiddleware;
 use OpenSolid\Bus\Middleware\Middleware;
 use OpenSolid\Bus\Middleware\NoneMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\AsMessageHandler;
-use OpenSolid\Tests\Bus\Fixtures\DummyDecorator;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 use PHPUnit\Framework\TestCase;
@@ -47,11 +46,6 @@ class HandlingMiddlewarePassTest extends TestCase
         $result = $envelope->unwrap();
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
-
-        /** @var DummyDecorator $decorator */
-        $decorator = $container->get(DummyDecorator::class);
-        $this->assertSame(2, $decorator->count);
-        $this->assertSame(['option1' => 'value1'], $decorator->options);
     }
 
     public function testInvalidSingleMessageHandlingProcess(): void
@@ -78,9 +72,6 @@ class HandlingMiddlewarePassTest extends TestCase
 
         $container->register('handler_2', MyMessageHandler::class)
             ->addTag('message_handler', ['class' => MyMessage::class]);
-
-        $container->register(DummyDecorator::class)
-            ->setPublic(true);
 
         MessageHandlerConfigurator::configure($container, AsMessageHandler::class, 'message_handler');
 

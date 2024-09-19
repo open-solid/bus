@@ -89,81 +89,10 @@ class MyMiddleware implements Middleware
 ### Decorators
 
 Decorators are helpers that perform tasks before and after your message is handled. Unlike
-Middleware, decorators operate at the handler level, allowing you to modify or enhance the 
-handler behavior without changing their actual code.
+Middleware, decorators operate at the handler level, allowing you to modify or enhance specific 
+handlers without changing their actual code.
 
-Essentially, a decorator is a callable that takes another callable as an argument and extends 
-or alters its behavior. Let's see an example:
-
-```php
-use OpenSolid\Bus\Decorator\Decorator;
-
-class StopwatchDecorator implements Decorator
-{
-    public function decorate(\Closure $func): \Closure
-    {
-        return function (mixed ...$args) use ($func): mixed {
-            // do something before
-
-            $result = $func(...$args);
-
-            // do something after
-
-            return $result;
-        };
-    }
-} 
-```
-
-Then, use it wherever you want to decorate a message handler operation with 
-the `#[Decorate]` attribute, which configures the decorator that will wrap 
-the current `MyMessageHandler::__invoke()` method.
-
-```php
-use App\Decorator\StopwatchDecorator;
-use OpenSolid\Bus\Decorator\Decorate;
-
-class MyMessageHandler
-{
-    #[Decorate(StopwatchDecorator::class)]
-    public function __invoke(MyMessage $message): void
-    {
-        // ...
-    }
-}
-```
-
-If it's a frequently used decorator, you can create a pre-defined class 
-to avoid configuring the same decorator repeatedly:
-
-```php
-use App\Decorator\StopwatchDecorator;
-use OpenSolid\Bus\Decorator\Decorate;
-
-#[\Attribute(\Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-readonly class Stopwatch extends Decorate
-{
-    public function __construct()
-    {
-        parent::__construct(StopwatchDecorator::class);
-    }
-}
-```
-
-Then, you can simply reference your `Stopwatch` attribute decorator as follows:
-
-```php
-use App\Decorator\Stopwatch;
-
-class MyMessageHandler
-{
-    #[Stopwatch]
-    public function __invoke(MyMessage $message): void
-    {
-        // ...
-    }
-}
-```
+Check this out in [decorator](https://github.com/yceruto/decorator) and [decorator-bundle](https://github.com/yceruto/decorator-bundle) packages. 
 
 ## Framework Integration
 

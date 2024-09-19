@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace OpenSolid\Bus\Middleware;
 
-use OpenSolid\Bus\Decorator\Decorator;
-use OpenSolid\Bus\Decorator\DecoratorsLocator;
 use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Envelope\Stamp\HandledStamp;
 use OpenSolid\Bus\Error\MultipleHandlersForMessage;
@@ -23,13 +21,15 @@ use OpenSolid\Bus\Handler\HandlersCountPolicy;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Yceruto\Decorator\CallableDecorator;
+use Yceruto\Decorator\DecoratorInterface;
 
 final readonly class HandlingMiddleware implements Middleware
 {
     public function __construct(
         private ContainerInterface $handlers,
-        private ContainerInterface $decorators = new DecoratorsLocator([]),
         private HandlersCountPolicy $policy = HandlersCountPolicy::MULTIPLE_HANDLERS,
+        private DecoratorInterface $decorator = new CallableDecorator(),
         private LoggerInterface $logger = new NullLogger(),
         private string $topic = 'Message',
     ) {
@@ -62,10 +62,7 @@ final readonly class HandlingMiddleware implements Middleware
         }
 
         foreach ($handlers as $handler) {
-            if ($this->decorators->has($handler::class)) {
-                $handler = $this->decorate($handler(...), $this->decorators->get($handler::class));
-            }
-
+            $handler = $this->decorator->decorate($handler(...));
             $result = $handler($envelope->message);
 
             $envelope->stamps->add(new HandledStamp($result));
@@ -77,17 +74,5 @@ final readonly class HandlingMiddleware implements Middleware
         }
 
         $next->handle($envelope);
-    }
-
-    /**
-     * @param iterable<Decorator> $decorators
-     */
-    public function decorate(\Closure $func, iterable $decorators): \Closure
-    {
-        foreach ($decorators as $decorator) {
-            $func = $decorator->decorate($func);
-        }
-
-        return $func;
     }
 }

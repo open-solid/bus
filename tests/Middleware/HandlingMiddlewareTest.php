@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace OpenSolid\Tests\Bus\Middleware;
 
-use OpenSolid\Bus\Decorator\DecoratorsLocator;
 use OpenSolid\Bus\Envelope\Envelope;
 use OpenSolid\Bus\Error\MultipleHandlersForMessage;
 use OpenSolid\Bus\Error\NoHandlerForMessage;
@@ -21,7 +20,6 @@ use OpenSolid\Bus\Handler\HandlersCountPolicy;
 use OpenSolid\Bus\Handler\HandlersLocator;
 use OpenSolid\Bus\Middleware\HandlingMiddleware;
 use OpenSolid\Bus\Middleware\NoneMiddleware;
-use OpenSolid\Tests\Bus\Fixtures\DummyDecorator;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 use PHPUnit\Framework\TestCase;
@@ -40,7 +38,7 @@ class HandlingMiddlewareTest extends TestCase
 
         $result = $envelop->unwrap();
 
-        $this->assertSame($message, $result);
+        $this->assertSame(['foo' => 'bar'], $result);
     }
 
     public function testNoHandlerForMessage(): void
@@ -66,21 +64,5 @@ class HandlingMiddlewareTest extends TestCase
         $middleware = new HandlingMiddleware(new HandlersLocator($handlers), policy: HandlersCountPolicy::SINGLE_HANDLER);
 
         $middleware->handle(Envelope::wrap(new MyMessage()), new NoneMiddleware());
-    }
-
-    public function testHandleMessageWithDecorator(): void
-    {
-        $message = new MyMessage();
-        $handlers = [
-            MyMessage::class => [new MyMessageHandler()],
-        ];
-        $decorators = [
-            MyMessageHandler::class => [$decorator = new DummyDecorator()],
-        ];
-        $middleware = new HandlingMiddleware(new HandlersLocator($handlers), new DecoratorsLocator($decorators));
-        $envelop = Envelope::wrap($message);
-        $middleware->handle($envelop, new NoneMiddleware());
-
-        $this->assertSame(1, $decorator->count);
     }
 }
