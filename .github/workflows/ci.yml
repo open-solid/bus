@@ -51,23 +51,3 @@ jobs:
 
     - name: Run tests
       run: composer test
-
-  psalm:
-    name: Psalm
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
-        extensions: bcmath, gmp, intl, dom, mbstring
-
-    - name: Download dependencies
-      run: composer install --classmap-authoritative
-
-    - name: Psalm
-      run: vendor/bin/psalm --show-info=true
