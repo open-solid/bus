@@ -21,7 +21,6 @@ use OpenSolid\Bus\Handler\HandlersCountPolicy;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Yceruto\Decorator\CallableDecorator;
 use Yceruto\Decorator\DecoratorInterface;
 
 final readonly class HandlingMiddleware implements Middleware
@@ -29,7 +28,7 @@ final readonly class HandlingMiddleware implements Middleware
     public function __construct(
         private ContainerInterface $handlers,
         private HandlersCountPolicy $policy = HandlersCountPolicy::MULTIPLE_HANDLERS,
-        private DecoratorInterface $decorator = new CallableDecorator(),
+        private ?DecoratorInterface $decorator = null,
         private LoggerInterface $logger = new NullLogger(),
         private string $topic = 'Message',
     ) {
@@ -62,7 +61,10 @@ final readonly class HandlingMiddleware implements Middleware
         }
 
         foreach ($handlers as $handler) {
-            $handler = $this->decorator->decorate($handler(...));
+            if ($this->decorator) {
+                $handler = $this->decorator->decorate($handler(...));
+            }
+
             $result = $handler($envelope->message);
 
             $envelope->stamps->add(new HandledStamp($result));
