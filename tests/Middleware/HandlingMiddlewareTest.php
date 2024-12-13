@@ -23,6 +23,7 @@ use OpenSolid\Bus\Middleware\NoneMiddleware;
 use OpenSolid\Tests\Bus\Fixtures\MyMessage;
 use OpenSolid\Tests\Bus\Fixtures\MyMessageHandler;
 use PHPUnit\Framework\TestCase;
+use Yceruto\Decorator\CallableDecorator;
 
 class HandlingMiddlewareTest extends TestCase
 {
@@ -32,7 +33,10 @@ class HandlingMiddlewareTest extends TestCase
         $handlers = [
             MyMessage::class => [new MyMessageHandler()],
         ];
-        $middleware = new HandlingMiddleware(new HandlersLocator($handlers));
+        $middleware = new HandlingMiddleware(
+            handlers: new HandlersLocator($handlers),
+            decorator: new CallableDecorator(),
+        );
         $envelop = Envelope::wrap($message);
         $middleware->handle($envelop, new NoneMiddleware());
 
