@@ -15,17 +15,23 @@ namespace OpenSolid\Bus\Bridge\Symfony\DependencyInjection\Configurator;
 
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 final readonly class MessageHandlerConfigurator
 {
     /**
+     * A union-typed __invoke() gets one tag per class in the union.
+     *
+     * The tag attribute holding the message class defaults to "class" (read by HandlingMiddlewarePass);
+     * pass "handles" for Symfony Messenger, which otherwise guesses every class of the union again on each tag.
+     *
      * @param class-string $attributeClass
      */
-    public static function configure(ContainerBuilder $builder, string $attributeClass, string $tagName, array $attributes = []): void
+    public static function configure(ContainerBuilder $builder, string $attributeClass, string $tagName, array $attributes = [], string $messageClassAttribute = 'class'): void
     {
         $builder->registerAttributeForAutoconfiguration(
             $attributeClass,
-            function (ChildDefinition $definition, object $attribute, \Reflector $reflector) use ($attributeClass, $tagName, $attributes): void {
+            static function (ChildDefinition $definition, object $attribute, \Reflector $reflector) use ($attributeClass, $tagName, $attributes, $messageClassAttribute): void {
                 if (!$reflector instanceof \ReflectionClass) {
                     return;
                 }
@@ -40,17 +46,43 @@ final readonly class MessageHandlerConfigurator
                     return;
                 }
 
-                $type = $reflectionMethod->getParameters()[0]->getType();
-
-                if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
+                if (!$attribute instanceof $attributeClass) {
                     return;
                 }
 
-                if ($attribute instanceof $attributeClass) {
-                    $definition->addTag($tagName, $attributes + ['class' => $type->getName()]);
+                foreach (self::messageClasses($reflector, $reflectionMethod->getParameters()[0]) as $messageClass) {
+                    $definition->addTag($tagName, $attributes + [$messageClassAttribute => $messageClass]);
                 }
             },
         );
+    }
+
+    /**
+     * @return list<string>
+     */
+    private static function messageClasses(\ReflectionClass $handler, \ReflectionParameter $parameter): array
+    {
+        $type = $parameter->getType();
+
+        if ($type instanceof \ReflectionNamedType) {
+            return $type->isBuiltin() ? [] : [$type->getName()];
+        }
+
+        if (!$type instanceof \ReflectionUnionType) {
+            return [];
+        }
+
+        $classes = [];
+
+        foreach ($type->getTypes() as $member) {
+            if (!$member instanceof \ReflectionNamedType || $member->isBuiltin()) {
+                throw new LogicException(\sprintf('Invalid type "%s" in the union type of parameter "$%s" of "%s::__invoke()": every member of the union must be a message class.', $member, $parameter->getName(), $handler->getName()));
+            }
+
+            $classes[] = $member->getName();
+        }
+
+        return $classes;
     }
 
     private function __construct()
